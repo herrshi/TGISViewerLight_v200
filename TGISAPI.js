@@ -12,17 +12,17 @@ var TMap = {
     window.projectConfig = options.config;
     window.loadFinishCallback = callback;
 
-    var leafletCssLink = document.createElement("link");
-    leafletCssLink.setAttribute("rel", "stylesheet");
-    leafletCssLink.setAttribute("type", "text/css");
-    leafletCssLink.setAttribute("href", path + "libs/leaflet/leaflet.css");
-    document.head.appendChild(leafletCssLink);
+    var loaderScript = document.createElement("script");
+    loaderScript.setAttribute("type", "text/javascript");
+    loaderScript.setAttribute("src", path + "simpleLoader.js");
+    document.body.appendChild(loaderScript);
 
-    var leafletScript = document.createElement("script");
-    leafletScript.setAttribute("type", "text/javascript");
-    leafletScript.setAttribute("src", path + "libs/leaflet/leaflet.js");
-    document.body.appendChild(leafletScript);
-    //
+    var initScript = document.createElement("script");
+    initScript.setAttribute("type", "text/javascript");
+    initScript.setAttribute("src", path + "init.js");
+    document.body.appendChild(initScript);
+
+
 
     return TMap;
 
