@@ -1,3 +1,27 @@
 //>>built
-define("dojox/lang/aspect/tracer",["dojo","dijit","dojox"],function(b,g,e){b.provide("dojox.lang.aspect.tracer");(function(){var c=e.lang.aspect,d=function(a){this.method=a?"group":"log";a&&(this.after=this._after)};b.extend(d,{before:function(){var a=c.getContext(),f=a.joinPoint,b=Array.prototype.join.call(arguments,", ");console[this.method](a.instance,"\x3d\x3e",f.targetName+"("+b+")")},afterReturning:function(a){var b=c.getContext().joinPoint;"undefined"!=typeof a?console.log(b.targetName+"() returns:",
-a):console.log(b.targetName+"() returns")},afterThrowing:function(a){console.log(c.getContext().joinPoint.targetName+"() throws:",a)},_after:function(a){console.groupEnd()}});c.tracer=function(a){return new d(a)}})()});
+define("dojox/lang/aspect/tracer",["dojo","dijit","dojox"],function(_1,_2,_3){
+_1.provide("dojox.lang.aspect.tracer");
+(function(){
+var _4=_3.lang.aspect;
+var _5=function(_6){
+this.method=_6?"group":"log";
+if(_6){
+this.after=this._after;
+}
+};
+_1.extend(_5,{before:function(){
+var _7=_4.getContext(),_8=_7.joinPoint,_9=Array.prototype.join.call(arguments,", ");
+console[this.method](_7.instance,"=>",_8.targetName+"("+_9+")");
+},afterReturning:function(_a){
+var _b=_4.getContext().joinPoint;
+if(typeof _a!="undefined"){
+}else{
+}
+},afterThrowing:function(_c){
+},_after:function(_d){
+}});
+_4.tracer=function(_e){
+return new _5(_e);
+};
+})();
+});

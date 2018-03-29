@@ -5,4 +5,6 @@
 */
 
 //>>built
-define("dojo/errors/RequestTimeoutError",["./create","./RequestError"],function(a,b){return a("RequestTimeoutError",null,b,{dojoType:"timeout"})});
+define("dojo/errors/RequestTimeoutError",["./create","./RequestError"],function(_1,_2){
+return _1("RequestTimeoutError",null,_2,{dojoType:"timeout"});
+});

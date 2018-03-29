@@ -5,15 +5,269 @@
 */
 
 //>>built
-define("dojo/_base/xhr","./kernel ./sniff require ../io-query ../dom ../dom-form ./Deferred ./config ./json ./lang ./array ../on ../aspect ../request/watch ../request/xhr ../request/util".split(" "),function(b,k,G,q,z,m,A,B,v,p,C,H,w,r,x,D){b._xhrObj=x._create;var t=b.config;b.objectToQuery=q.objectToQuery;b.queryToObject=q.queryToObject;b.fieldToObject=m.fieldToObject;b.formToObject=m.toObject;b.formToQuery=m.toQuery;b.formToJson=m.toJson;b._blockAsync=!1;k.add("native-xhr2-blob",function(){if(k("native-xhr2")){var a=
-new XMLHttpRequest;a.open("GET","/",!0);a.responseType="blob";var b=a.responseType;a.abort();return"blob"===b}});var g=b._contentHandlers=b.contentHandlers={text:function(a){return a.responseText},json:function(a){return v.fromJson(a.responseText||null)},"json-comment-filtered":function(a){B.useCommentedJson||console.warn("Consider using the standard mimetype:application/json. json-commenting can introduce security issues. To decrease the chances of hijacking, use the standard the 'json' handler and prefix your json with: {}\x26\x26\nUse djConfig.useCommentedJson\x3dtrue to turn off this message.");
-a=a.responseText;var b=a.indexOf("/*"),h=a.lastIndexOf("*/");if(-1==b||-1==h)throw Error("JSON was not comment filtered");return v.fromJson(a.substring(b+2,h))},javascript:function(a){return b.eval(a.responseText)},xml:function(a){var b=a.responseXML;b&&k("dom-qsa2.1")&&!b.querySelectorAll&&k("dom-parser")&&(b=(new DOMParser).parseFromString(a.responseText,"application/xml"));if(k("ie")&&(!b||!b.documentElement)){var h=function(a){return"MSXML"+a+".DOMDocument"},h=["Microsoft.XMLDOM",h(6),h(4),h(3),
-h(2)];C.some(h,function(c){try{var d=new ActiveXObject(c);d.async=!1;d.loadXML(a.responseText);b=d}catch(f){return!1}return!0})}return b},"json-comment-optional":function(a){return a.responseText&&/^[^{\[]*\/\*/.test(a.responseText)?g["json-comment-filtered"](a):g.json(a)}};k("native-xhr2")&&(g.arraybuffer=g.blob=g.document=function(a,b){return"blob"!==b.args.handleAs||k("native-xhr2-blob")?a.response:new Blob([a.response],{type:a.getResponseHeader("Content-Type")})});b._ioSetArgs=function(a,c,h,
-k){var d={args:a,url:a.url},f=null;if(a.form){var f=z.byId(a.form),e=f.getAttributeNode("action");d.url=d.url||(e?e.value:b.doc?b.doc.URL:null);f=m.toObject(f)}e=[{}];f&&e.push(f);a.content&&e.push(a.content);a.preventCache&&e.push({"dojo.preventCache":(new Date).valueOf()});d.query=q.objectToQuery(p.mixin.apply(null,e));d.handleAs=a.handleAs||"text";var l=new A(function(a){a.canceled=!0;c&&c(a);var b=a.ioArgs.error;b||(b=Error("request cancelled"),b.dojoType="cancel",a.ioArgs.error=b);return b});
-l.addCallback(h);var u=a.load;u&&p.isFunction(u)&&l.addCallback(function(b){return u.call(a,b,d)});var g=a.error;g&&p.isFunction(g)&&l.addErrback(function(b){return g.call(a,b,d)});var n=a.handle;n&&p.isFunction(n)&&l.addBoth(function(b){return n.call(a,b,d)});l.addErrback(function(a){return k(a,l)});t.ioPublish&&b.publish&&!1!==d.args.ioPublish&&(l.addCallbacks(function(a){b.publish("/dojo/io/load",[l,a]);return a},function(a){b.publish("/dojo/io/error",[l,a]);return a}),l.addBoth(function(a){b.publish("/dojo/io/done",
-[l,a]);return a}));l.ioArgs=d;return l};var E=function(a){a=g[a.ioArgs.handleAs](a.ioArgs.xhr,a.ioArgs);return void 0===a?null:a},F=function(a,b){b.ioArgs.args.failOk||console.error(a);return a},y=function(a){0>=n&&(n=0,t.ioPublish&&b.publish&&(!a||a&&!1!==a.ioArgs.args.ioPublish)&&b.publish("/dojo/io/stop"))},n=0;w.after(r,"_onAction",function(){--n});w.after(r,"_onInFlight",y);b._ioCancelAll=r.cancelAll;b._ioNotifyStart=function(a){t.ioPublish&&b.publish&&!1!==a.ioArgs.args.ioPublish&&(n||b.publish("/dojo/io/start"),
-n+=1,b.publish("/dojo/io/send",[a]))};b._ioWatch=function(a,b,h,k){a.ioArgs.options=a.ioArgs.args;p.mixin(a,{response:a.ioArgs,isValid:function(c){return b(a)},isReady:function(b){return h(a)},handleResponse:function(b){return k(a)}});r(a);y(a)};b._ioAddQueryToUrl=function(a){a.query.length&&(a.url+=(-1==a.url.indexOf("?")?"?":"\x26")+a.query,a.query=null)};b.xhr=function(a,c,h){var g,d=b._ioSetArgs(c,function(a){g&&g.cancel()},E,F),f=d.ioArgs;"postData"in c?f.query=c.postData:"putData"in c?f.query=
-c.putData:"rawBody"in c?f.query=c.rawBody:(2<arguments.length&&!h||-1==="POST|PUT".indexOf(a.toUpperCase()))&&b._ioAddQueryToUrl(f);var e;k("native-xhr2")&&(e={arraybuffer:1,blob:1,document:1});e=k("native-xhr2")&&e[c.handleAs]?c.handleAs:"text";"blob"!==e||k("native-xhr2-blob")||(e="arraybuffer");e={method:a,handleAs:e,responseType:c.responseType,timeout:c.timeout,withCredentials:c.withCredentials,ioArgs:f};"undefined"!==typeof c.headers&&(e.headers=c.headers);"undefined"!==typeof c.contentType&&
-(e.headers||(e.headers={}),e.headers["Content-Type"]=c.contentType);"undefined"!==typeof f.query&&(e.data=f.query);"undefined"!==typeof c.sync&&(e.sync=c.sync);b._ioNotifyStart(d);try{g=x(f.url,e,!0)}catch(l){return d.cancel(),d}d.ioArgs.xhr=g.response.xhr;g.then(function(){d.resolve(d)}).otherwise(function(a){f.error=a;a.response&&(a.status=a.response.status,a.responseText=a.response.text,a.xhr=a.response.xhr);d.reject(a)});return d};b.xhrGet=function(a){return b.xhr("GET",a)};b.rawXhrPost=b.xhrPost=
-function(a){return b.xhr("POST",a,!0)};b.rawXhrPut=b.xhrPut=function(a){return b.xhr("PUT",a,!0)};b.xhrDelete=function(a){return b.xhr("DELETE",a)};b._isDocumentOk=function(a){return D.checkStatus(a.status)};b._getText=function(a){var c;b.xhrGet({url:a,sync:!0,load:function(a){c=a}});return c};p.mixin(b.xhr,{_xhrObj:b._xhrObj,fieldToObject:m.fieldToObject,formToObject:m.toObject,objectToQuery:q.objectToQuery,formToQuery:m.toQuery,formToJson:m.toJson,queryToObject:q.queryToObject,contentHandlers:g,
-_ioSetArgs:b._ioSetArgs,_ioCancelAll:b._ioCancelAll,_ioNotifyStart:b._ioNotifyStart,_ioWatch:b._ioWatch,_ioAddQueryToUrl:b._ioAddQueryToUrl,_isDocumentOk:b._isDocumentOk,_getText:b._getText,get:b.xhrGet,post:b.xhrPost,put:b.xhrPut,del:b.xhrDelete});return b.xhr});
+define("dojo/_base/xhr",["./kernel","./sniff","require","../io-query","../dom","../dom-form","./Deferred","./config","./json","./lang","./array","../on","../aspect","../request/watch","../request/xhr","../request/util"],function(_1,_2,_3,_4,_5,_6,_7,_8,_9,_a,_b,on,_c,_d,_e,_f){
+_1._xhrObj=_e._create;
+var cfg=_1.config;
+_1.objectToQuery=_4.objectToQuery;
+_1.queryToObject=_4.queryToObject;
+_1.fieldToObject=_6.fieldToObject;
+_1.formToObject=_6.toObject;
+_1.formToQuery=_6.toQuery;
+_1.formToJson=_6.toJson;
+_1._blockAsync=false;
+var _10=_1._contentHandlers=_1.contentHandlers={"text":function(xhr){
+return xhr.responseText;
+},"json":function(xhr){
+return _9.fromJson(xhr.responseText||null);
+},"json-comment-filtered":function(xhr){
+if(!_8.useCommentedJson){
+console.warn("Consider using the standard mimetype:application/json."+" json-commenting can introduce security issues. To"+" decrease the chances of hijacking, use the standard the 'json' handler and"+" prefix your json with: {}&&\n"+"Use djConfig.useCommentedJson=true to turn off this message.");
+}
+var _11=xhr.responseText;
+var _12=_11.indexOf("/*");
+var _13=_11.lastIndexOf("*/");
+if(_12==-1||_13==-1){
+throw new Error("JSON was not comment filtered");
+}
+return _9.fromJson(_11.substring(_12+2,_13));
+},"javascript":function(xhr){
+return _1.eval(xhr.responseText);
+},"xml":function(xhr){
+var _14=xhr.responseXML;
+if(_14&&_2("dom-qsa2.1")&&!_14.querySelectorAll&&_2("dom-parser")){
+_14=new DOMParser().parseFromString(xhr.responseText,"application/xml");
+}
+if(_2("ie")){
+if((!_14||!_14.documentElement)){
+var ms=function(n){
+return "MSXML"+n+".DOMDocument";
+};
+var dp=["Microsoft.XMLDOM",ms(6),ms(4),ms(3),ms(2)];
+_b.some(dp,function(p){
+try{
+var dom=new ActiveXObject(p);
+dom.async=false;
+dom.loadXML(xhr.responseText);
+_14=dom;
+}
+catch(e){
+return false;
+}
+return true;
+});
+}
+}
+return _14;
+},"json-comment-optional":function(xhr){
+if(xhr.responseText&&/^[^{\[]*\/\*/.test(xhr.responseText)){
+return _10["json-comment-filtered"](xhr);
+}else{
+return _10["json"](xhr);
+}
+}};
+_1._ioSetArgs=function(_15,_16,_17,_18){
+var _19={args:_15,url:_15.url};
+var _1a=null;
+if(_15.form){
+var _1b=_5.byId(_15.form);
+var _1c=_1b.getAttributeNode("action");
+_19.url=_19.url||(_1c?_1c.value:(_1.doc?_1.doc.URL:null));
+_1a=_6.toObject(_1b);
+}
+var _1d=[{}];
+if(_1a){
+_1d.push(_1a);
+}
+if(_15.content){
+_1d.push(_15.content);
+}
+if(_15.preventCache){
+_1d.push({"dojo.preventCache":new Date().valueOf()});
+}
+_19.query=_4.objectToQuery(_a.mixin.apply(null,_1d));
+_19.handleAs=_15.handleAs||"text";
+var d=new _7(function(dfd){
+dfd.canceled=true;
+_16&&_16(dfd);
+var err=dfd.ioArgs.error;
+if(!err){
+err=new Error("request cancelled");
+err.dojoType="cancel";
+dfd.ioArgs.error=err;
+}
+return err;
+});
+d.addCallback(_17);
+var ld=_15.load;
+if(ld&&_a.isFunction(ld)){
+d.addCallback(function(_1e){
+return ld.call(_15,_1e,_19);
+});
+}
+var err=_15.error;
+if(err&&_a.isFunction(err)){
+d.addErrback(function(_1f){
+return err.call(_15,_1f,_19);
+});
+}
+var _20=_15.handle;
+if(_20&&_a.isFunction(_20)){
+d.addBoth(function(_21){
+return _20.call(_15,_21,_19);
+});
+}
+d.addErrback(function(_22){
+return _18(_22,d);
+});
+if(cfg.ioPublish&&_1.publish&&_19.args.ioPublish!==false){
+d.addCallbacks(function(res){
+_1.publish("/dojo/io/load",[d,res]);
+return res;
+},function(res){
+_1.publish("/dojo/io/error",[d,res]);
+return res;
+});
+d.addBoth(function(res){
+_1.publish("/dojo/io/done",[d,res]);
+return res;
+});
+}
+d.ioArgs=_19;
+return d;
+};
+var _23=function(dfd){
+var ret=_10[dfd.ioArgs.handleAs](dfd.ioArgs.xhr);
+return ret===undefined?null:ret;
+};
+var _24=function(_25,dfd){
+if(!dfd.ioArgs.args.failOk){
+console.error(_25);
+}
+return _25;
+};
+var _26=function(dfd){
+if(_27<=0){
+_27=0;
+if(cfg.ioPublish&&_1.publish&&(!dfd||dfd&&dfd.ioArgs.args.ioPublish!==false)){
+_1.publish("/dojo/io/stop");
+}
+}
+};
+var _27=0;
+_c.after(_d,"_onAction",function(){
+_27-=1;
+});
+_c.after(_d,"_onInFlight",_26);
+_1._ioCancelAll=_d.cancelAll;
+_1._ioNotifyStart=function(dfd){
+if(cfg.ioPublish&&_1.publish&&dfd.ioArgs.args.ioPublish!==false){
+if(!_27){
+_1.publish("/dojo/io/start");
+}
+_27+=1;
+_1.publish("/dojo/io/send",[dfd]);
+}
+};
+_1._ioWatch=function(dfd,_28,_29,_2a){
+var _2b=dfd.ioArgs.options=dfd.ioArgs.args;
+_a.mixin(dfd,{response:dfd.ioArgs,isValid:function(_2c){
+return _28(dfd);
+},isReady:function(_2d){
+return _29(dfd);
+},handleResponse:function(_2e){
+return _2a(dfd);
+}});
+_d(dfd);
+_26(dfd);
+};
+var _2f="application/x-www-form-urlencoded";
+_1._ioAddQueryToUrl=function(_30){
+if(_30.query.length){
+_30.url+=(_30.url.indexOf("?")==-1?"?":"&")+_30.query;
+_30.query=null;
+}
+};
+_1.xhr=function(_31,_32,_33){
+var _34;
+var dfd=_1._ioSetArgs(_32,function(dfd){
+_34&&_34.cancel();
+},_23,_24);
+var _35=dfd.ioArgs;
+if("postData" in _32){
+_35.query=_32.postData;
+}else{
+if("putData" in _32){
+_35.query=_32.putData;
+}else{
+if("rawBody" in _32){
+_35.query=_32.rawBody;
+}else{
+if((arguments.length>2&&!_33)||"POST|PUT".indexOf(_31.toUpperCase())===-1){
+_1._ioAddQueryToUrl(_35);
+}
+}
+}
+}
+var _36={method:_31,handleAs:"text",timeout:_32.timeout,withCredentials:_32.withCredentials,ioArgs:_35};
+if(typeof _32.headers!=="undefined"){
+_36.headers=_32.headers;
+}
+if(typeof _32.contentType!=="undefined"){
+if(!_36.headers){
+_36.headers={};
+}
+_36.headers["Content-Type"]=_32.contentType;
+}
+if(typeof _35.query!=="undefined"){
+_36.data=_35.query;
+}
+if(typeof _32.sync!=="undefined"){
+_36.sync=_32.sync;
+}
+_1._ioNotifyStart(dfd);
+try{
+_34=_e(_35.url,_36,true);
+}
+catch(e){
+dfd.cancel();
+return dfd;
+}
+dfd.ioArgs.xhr=_34.response.xhr;
+_34.then(function(){
+dfd.resolve(dfd);
+}).otherwise(function(_37){
+_35.error=_37;
+if(_37.response){
+_37.status=_37.response.status;
+_37.responseText=_37.response.text;
+_37.xhr=_37.response.xhr;
+}
+dfd.reject(_37);
+});
+return dfd;
+};
+_1.xhrGet=function(_38){
+return _1.xhr("GET",_38);
+};
+_1.rawXhrPost=_1.xhrPost=function(_39){
+return _1.xhr("POST",_39,true);
+};
+_1.rawXhrPut=_1.xhrPut=function(_3a){
+return _1.xhr("PUT",_3a,true);
+};
+_1.xhrDelete=function(_3b){
+return _1.xhr("DELETE",_3b);
+};
+_1._isDocumentOk=function(x){
+return _f.checkStatus(x.status);
+};
+_1._getText=function(url){
+var _3c;
+_1.xhrGet({url:url,sync:true,load:function(_3d){
+_3c=_3d;
+}});
+return _3c;
+};
+_a.mixin(_1.xhr,{_xhrObj:_1._xhrObj,fieldToObject:_6.fieldToObject,formToObject:_6.toObject,objectToQuery:_4.objectToQuery,formToQuery:_6.toQuery,formToJson:_6.toJson,queryToObject:_4.queryToObject,contentHandlers:_10,_ioSetArgs:_1._ioSetArgs,_ioCancelAll:_1._ioCancelAll,_ioNotifyStart:_1._ioNotifyStart,_ioWatch:_1._ioWatch,_ioAddQueryToUrl:_1._ioAddQueryToUrl,_isDocumentOk:_1._isDocumentOk,_getText:_1._getText,get:_1.xhrGet,post:_1.xhrPost,put:_1.xhrPut,del:_1.xhrDelete});
+return _1.xhr;
+});

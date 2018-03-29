@@ -1,2 +1,2 @@
 //>>built
-define("dojox/editor/plugins/nls/hu/Preview",{preview:"El\u0151zetes"});
+define("dojox/editor/plugins/nls/hu/Preview",({"preview":"Előzetes"}));

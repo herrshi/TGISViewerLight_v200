@@ -1,2 +1,2 @@
 //>>built
-define("dojox/editor/plugins/nls/sr/PageBreak",{pageBreak:"Prelom stranice"});
+define("dojox/editor/plugins/nls/sr/PageBreak",{"pageBreak":"Prelom stranice"});

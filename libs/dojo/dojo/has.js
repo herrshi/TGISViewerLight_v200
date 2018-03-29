@@ -5,6 +5,68 @@
 */
 
 //>>built
-define("dojo/has",["require","module"],function(k,h){var a=k.has||function(){};if(!a("dojo-has-api")){var b="undefined"!=typeof window&&"undefined"!=typeof location&&"undefined"!=typeof document&&window.location==location&&window.document==document,l=function(){return this}(),g=b&&document,m=g&&g.createElement("DiV"),c=h.config&&h.config()||{},a=function(a){return"function"==typeof c[a]?c[a]=c[a](l,g,m):c[a]};a.cache=c;a.add=function(d,b,n,e){("undefined"==typeof c[d]||e)&&(c[d]=b);return n&&a(d)}}a.add("dom-addeventlistener",
-!!document.addEventListener);a.add("touch","ontouchstart"in document||"onpointerdown"in document&&0<navigator.maxTouchPoints||window.navigator.msMaxTouchPoints);a.add("touch-events","ontouchstart"in document);a.add("pointer-events","pointerEnabled"in window.navigator?window.navigator.pointerEnabled:"PointerEvent"in window);a.add("MSPointer",window.navigator.msPointerEnabled);a.add("touch-action",a("touch")&&a("pointer-events"));a.add("device-width",screen.availWidth||innerWidth);b=document.createElement("form");
-a.add("dom-attributes-explicit",0==b.attributes.length);a.add("dom-attributes-specified-flag",0<b.attributes.length&&40>b.attributes.length);a.clearElement=function(a){a.innerHTML="";return a};a.normalize=function(d,b){var c=d.match(/[\?:]|[^:\?]*/g),e=0,f=function(d){var b=c[e++];if(":"==b)return 0;if("?"==c[e++]){if(!d&&a(b))return f();f(!0);return f(d)}return b||0};return(d=f())&&b(d)};a.load=function(a,b,c){a?b([a],c):c()};return a});
+define("dojo/has",["./global","require","module"],function(_1,_2,_3){
+var _4=_2.has||function(){
+};
+if(!1){
+var _5=typeof window!="undefined"&&typeof location!="undefined"&&typeof document!="undefined"&&window.location==location&&window.document==document,_6=_5&&document,_7=_6&&_6.createElement("DiV"),_8=(_3.config&&_3.config())||{};
+_4=function(_9){
+return typeof _8[_9]=="function"?(_8[_9]=_8[_9](_1,_6,_7)):_8[_9];
+};
+_4.cache=_8;
+_4.add=function(_a,_b,_c,_d){
+(typeof _8[_a]=="undefined"||_d)&&(_8[_a]=_b);
+return _c&&_4(_a);
+};
+1||_4.add("host-browser",_5);
+0&&_4.add("host-node",(typeof process=="object"&&process.versions&&process.versions.node&&process.versions.v8));
+0&&_4.add("host-rhino",(typeof load=="function"&&(typeof Packages=="function"||typeof Packages=="object")));
+1||_4.add("dom",_5);
+1||_4.add("dojo-dom-ready-api",1);
+1||_4.add("dojo-sniff",1);
+}
+if(1){
+_4.add("dom-addeventlistener",!!document.addEventListener);
+_4.add("touch","ontouchstart" in document||("onpointerdown" in document&&navigator.maxTouchPoints>0)||window.navigator.msMaxTouchPoints);
+_4.add("touch-events","ontouchstart" in document);
+_4.add("pointer-events","pointerEnabled" in window.navigator?window.navigator.pointerEnabled:"PointerEvent" in window);
+_4.add("MSPointer",window.navigator.msPointerEnabled);
+_4.add("touch-action",_4("touch")&&_4("pointer-events"));
+_4.add("device-width",screen.availWidth||innerWidth);
+var _e=document.createElement("form");
+_4.add("dom-attributes-explicit",_e.attributes.length==0);
+_4.add("dom-attributes-specified-flag",_e.attributes.length>0&&_e.attributes.length<40);
+}
+_4.clearElement=function(_f){
+_f.innerHTML="";
+return _f;
+};
+_4.normalize=function(id,_10){
+var _11=id.match(/[\?:]|[^:\?]*/g),i=0,get=function(_12){
+var _13=_11[i++];
+if(_13==":"){
+return 0;
+}else{
+if(_11[i++]=="?"){
+if(!_12&&_4(_13)){
+return get();
+}else{
+get(true);
+return get(_12);
+}
+}
+return _13||0;
+}
+};
+id=get();
+return id&&_10(id);
+};
+_4.load=function(id,_14,_15){
+if(id){
+_14([id],_15);
+}else{
+_15();
+}
+};
+return _4;
+});

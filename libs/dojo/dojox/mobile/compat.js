@@ -1,2 +1,2 @@
 //>>built
-define("dojox/mobile/compat",["dojo/_base/lang","dojo/sniff"],function(b,a){var c=b.getObject("dojox.mobile",!0);(!a("webkit")&&10!==a("ie")||!a("ie")&&6<a("trident"))&&require(["dojox/mobile/_compat"]);return c});
+define("dojox/mobile/compat",["dojo/_base/lang","dojo/sniff"],function(_1,_2){var dm=_1.getObject("dojox.mobile",true);if(!(_2("webkit")||_2("ie")===10)||(!_2("ie")&&_2("trident")>6)){var s="dojox/mobile/_compat";require([s]);}return dm;});

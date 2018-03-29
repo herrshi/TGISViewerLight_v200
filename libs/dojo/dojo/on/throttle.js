@@ -5,4 +5,10 @@
 */
 
 //>>built
-define("dojo/on/throttle",["../throttle","../on"],function(a,b){return function(c,d){return function(e,f){return b(e,c,a(f,d))}}});
+define("dojo/on/throttle",["../throttle","../on"],function(_1,on){
+return function(_2,_3){
+return function(_4,_5){
+return on(_4,_2,_1(_5,_3));
+};
+};
+});

@@ -5,4 +5,6 @@
 */
 
 //>>built
-define("dojo/NodeList",["./query"],function(a){return a.NodeList});
+define("dojo/NodeList",["./query"],function(_1){
+return _1.NodeList;
+});

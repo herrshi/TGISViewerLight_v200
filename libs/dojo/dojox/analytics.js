@@ -1,2 +1,4 @@
 //>>built
-define("dojox/analytics",["./analytics/_base"],function(a){return a});
+define("dojox/analytics",["./analytics/_base"],function(_1){
+return _1;
+});
