@@ -1,7 +1,13 @@
-define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
+define([
+  "dojo/_base/declare",
+  "dojo/_base/lang",
+  "dojo/topic",
+  "dojo/request/xhr"
+], function(
   declare,
   lang,
-  topic
+  topic,
+  xhr
 ) {
   var instance = null,
     clazz;
@@ -12,8 +18,31 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
     _configLoaded: false,
 
     loadConfig: function () {
+      console.time("Load Config");
+      this._tryLoadConfig().then(lang.hitch(this, function (appConfig) {
+        this.appConfig = appConfig;
+        console.timeEnd("Load Config");
+
+        topic.publish("appConfigLoaded", appConfig);
+
+      }), lang.hitch(this, function (error) {
+        console.error(error);
+      }));
       
+    },
+
+    _tryLoadConfig: function () {
+      if (window.projectConfig) {
+        this.configFile = window.projectConfig;
+        return xhr(this.configFile, {
+          handleAs: "json"
+        }).then(lang.hitch(this, function (appConfig) {
+          return appConfig;
+        }));
+      }
     }
+
+
   });
 
   clazz.getInstance = function() {

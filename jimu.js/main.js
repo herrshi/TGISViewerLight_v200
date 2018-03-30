@@ -1,8 +1,10 @@
 define([
   "dojo/_base/lang",
+  "jimu/LayoutManager",
   "jimu/ConfigManager"
 ], function (
   lang,
+  LayoutManager,
   ConfigManager
 ) {
   var mo = {};
@@ -19,6 +21,14 @@ define([
 
   function initApp() {
     console.log("jimu.js init...");
+
+    var layoutManager = LayoutManager.getInstance({
+      mapId: jimuConfig.mapId
+    }, jimuConfig.layoutId);
+    layoutManager.startup();
+
+    var configManager = ConfigManager.getInstance();
+    configManager.loadConfig();
   }
 
   mo.initApp = initApp;
