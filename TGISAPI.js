@@ -12,6 +12,20 @@ var TMap = {
     window.projectConfig = options.config;
     window.loadFinishCallback = callback;
 
+    var mainPageDiv = document.createElement("div");
+    mainPageDiv.id = "main-page";
+    mainPageDiv.style.width = "100%";
+    mainPageDiv.style.height = "100%";
+    mainPageDiv.style.position = "relative";
+    document.getElementById(divId).appendChild(mainPageDiv);
+
+    var layoutManagerDiv = document.createElement("div");
+    layoutManagerDiv.id = "jimu-layout-manager";
+    layoutManagerDiv.style.width = "100%";
+    layoutManagerDiv.style.height = "100%";
+    layoutManagerDiv.style.position = "absolute";
+    mainPageDiv.appendChild(layoutManagerDiv);
+
     var loaderScript = document.createElement("script");
     loaderScript.setAttribute("type", "text/javascript");
     loaderScript.setAttribute("src", path + "simpleLoader.js");

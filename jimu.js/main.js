@@ -22,9 +22,7 @@ define([
   function initApp() {
     console.log("jimu.js init...");
 
-    var layoutManager = LayoutManager.getInstance({
-      mapId: jimuConfig.mapId
-    }, jimuConfig.layoutId);
+    var layoutManager = LayoutManager.getInstance(jimuConfig.layoutId);
     layoutManager.startup();
 
     var configManager = ConfigManager.getInstance();

@@ -1,0 +1,12 @@
+{
+  "map": {
+    "basemaps": [
+      {
+        "label": "MapABC",
+        "url": "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "type": "tile",
+        "visible": true
+      }
+    ]
+  }
+}
