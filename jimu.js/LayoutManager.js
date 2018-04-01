@@ -3,13 +3,16 @@ define([
   "dojo/_base/lang",
   "dojo/_base/html",
   "dojo/topic",
-  "dijit/_WidgetBase"
+  "dijit/_WidgetBase",
+  "jimu/MapManager"
 ], function (
   declare,
   lang,
   html,
   topic,
-  _WidgetBase) {
+  _WidgetBase,
+  MapManager
+) {
 
   var instance = null, clazz;
 
@@ -46,6 +49,11 @@ define([
           display: "flex"
         })
       }, this.id);
+
+      this.mapManager = MapManager.getInstance({
+        appConfig: this.appConfig
+      }, this.mapId);
+      this.mapManager.showMap();
     }
   });
 
