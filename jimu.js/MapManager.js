@@ -23,21 +23,35 @@ define([
     showMap: function () {
       console.time("Load Map");
 
-      var lon = 103.862;
-      var lat = 36.046;
-      var zoom = 13;
-      var map = L.map(this.mapDivId).setView([lat, lon], zoom);
+      var map = L.map(this.mapDivId, this.appConfig.map.mapOptions);
 
-      var my_merge_tile_layer = L.tileLayer('http://114.215.146.210:25003/v3/tile?z={z}&x={x}&y={y}', {
-        maxZoom: 18,
-        minZoom: 4,
-        id: '3'
-      });
-
-      my_merge_tile_layer.addTo(map);
+      this.appConfig.map.basemaps.forEach(lang.hitch(this, function (layerConfig) {
+        this._createMap(map, layerConfig);
+      }));
 
       console.timeEnd("Load Map");
-      
+      this.map = map;
+      topic.publish("mapLoaded", this.map);
+    },
+
+    _createMap: function (map, layerConfig) {
+      var keyProperties = ["label", "url", "type"];
+      var options = [];
+      for (var p in layerConfig) {
+        if (layerConfig.hasOwnProperty(p)) {
+          if (keyProperties.indexOf(p) < 0) {
+            options[p] = layerConfig[p];
+          }
+        }
+      }
+
+      switch (layerConfig.type){
+        case "tile":
+          var layer = L.tileLayer(layerConfig.url, options);
+          layer.label = layerConfig.label;
+          layer.addTo(map);
+          break;
+      }
     }
   });
 

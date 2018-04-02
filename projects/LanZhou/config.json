@@ -3,10 +3,21 @@
     "basemaps": [
       {
         "label": "MapABC",
-        "url": "http://114.215.146.210:25003/v3/tile?z=${level}&x=${col}&y=${row}",
+        "url": "http://114.215.146.210:25003/v3/tile?z={z}&x={x}&y={y}",
         "type": "tile",
-        "visible": true
+        "maxZoom": 18,
+        "minZoom": 4
       }
-    ]
-  }
+    ],
+    "mapOptions": {
+      "center": [36.046, 103.862],
+      "zoom": 13
+    }
+  },
+  "widgets": [
+    {
+      "uri": "widgets/Overlay/Widget",
+      "id": "OverlayWidget"
+    }
+  ]
 }
