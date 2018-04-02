@@ -77,6 +77,18 @@ define([
       }));
 
       return def;
+    },
+
+    _loadWidgetResources: function (setting) {
+      var def = new Deferred(),
+        defConfig, defI18n, defStyle, defTemplate, defs = [];
+      var setting2 = lang.clone(setting);
+
+    },
+
+    _loadWidgetConfig: function (setting) {
+      var def = new Deferred();
+
     }
   });
 
