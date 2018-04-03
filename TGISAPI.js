@@ -78,6 +78,31 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("addPoints", params);
     });
+  },
+
+  /**
+   * 删除指定点覆盖物
+   * @param params: string, json字符串
+   *   types: [string], optional, 要删除的类型
+   *   ids: [string], optional, 要删除的id
+   * @sample
+   *   删除所有类型为"police"的覆盖物
+   *     map.deletePoints('{"types":["police"]}')
+   *   删除类型为"car"，且id是"沪A11111", "沪A22222"的覆盖物
+   *     {types: ["car"], ids: ["沪A11111", "沪A22222"]}
+   * */
+  deletePoints: function(params){
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deletePoints", params);
+    });
+  },
+
+
+  /**删除所有点覆盖物*/
+  deleteAllPoints: function () {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deleteAllPoints");
+    });
   }
   /************************ Overlay END **************************/
 };
