@@ -21,18 +21,47 @@
       margin: 0;
       padding: 0;
     }
+
+    #testButtons {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      width: 200px;
+      height: 30px;
+      z-index: 999;
+      background: #ffffff;
+      color: #777777;
+      padding: 5px;
+      border: 2px solid #666666;
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
   </style>
 </head>
 
 <body>
 <div id="mapContainer"></div>
 
+<div id="testButtons">
+  <button type="button" onclick="Test1ClickHandler()">Test1</button>
+  <button type="button" onclick="Test2ClickHandler()">Test2</button>
+  <button type="button" onclick="Test3ClickHandler()">Test3</button>
+</div>
+
 <script src="TGISAPI.js"></script>
 <script>
   var map = TMap.createNew({
     viewerUrl: "http://localhost:8090/TGISViewerLight_v200/",
     config: "http://localhost:8090/TGISViewerLight_v200/projects/LanZhou/config.json"
-  }, "mapContainer");
+  }, "mapContainer", function () {
+    map.addPoints('{"defaultSymbol":{"url":"images/RedSphere.png","xoffset":32,"yoffset":32},"points":[{"id":"pt001","type":"police","geometry":{"x":103.8535,"y":36.0342},"symbol":{"url":"images/BlueSphere.png","xoffset":32,"yoffset":32}},{"id":"pt002","type":"police","geometry":{"x":103.8431,"y":36.053}},{"id":"pt003","type":"police","geometry":{"x":103.8541,"y":36.05}}]}');
+  });
+
+  function Test1ClickHandler() {
+
+  }
 </script>
 
 </body>

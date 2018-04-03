@@ -40,6 +40,7 @@ var dojoConfig, jimuConfig;
     ];
 
     resources = [
+      window.path + "libs/json3.min.js",
       window.path + "libs/leaflet/leaflet.css",
       window.path + "libs/leaflet/leaflet.js",
       window.path + "libs/dojo/dojo/dojo.js"
