@@ -231,7 +231,7 @@ define([
 
       if(!containerNode){
         if(position.relativeTo === "map"){
-          containerNode = this.map.id;
+          containerNode = window.jimuConfig.mapId;
         }else{
           containerNode = window.jimuConfig.layoutId;
         }

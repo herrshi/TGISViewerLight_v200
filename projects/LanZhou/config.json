@@ -18,6 +18,20 @@
     {
       "uri": "widgets/Overlay/Widget",
       "id": "OverlayWidget"
+    },
+    {
+      "uri": "widgets/BottomToolbar/Widget",
+      "name": "BottomToolbar",
+      "config": "configs/BottomToolbar/config_LanZhou.json",
+      "position": {
+        "bottom": 10,
+        "width": "100%",
+        "left": 0,
+        "right": 0,
+        "relativeTo": "map",
+        "zIndex": 500
+      },
+      "id": "BottomToolbarWidget"
     }
   ]
 }

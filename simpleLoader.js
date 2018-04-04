@@ -113,7 +113,7 @@
     }
 
     function loadJs(url) {
-      var result = createElement({
+      return createElement({
         element: "script",
         type: "text/javascript",
         onload: function() {
@@ -125,7 +125,6 @@
         src: url,
         appendTo: "body"
       });
-      return result;
     }
 
     function elementLoaded(url) {

@@ -6,6 +6,47 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TGISViewer-Light</title>
 
+  <!--<script src="libs/leaflet/leaflet.js"></script>-->
+  <!--<link rel="stylesheet" href="libs/leaflet/leaflet.js">-->
+
+  <!--<script src="libs/leaflet/Leaflet.draw.js"></script>-->
+  <!--<script src="libs/leaflet/Leaflet.Draw.Event.js"></script>-->
+  <!--<link rel="stylesheet" href="libs/leaflet/leaflet.draw.css" />-->
+
+  <!--<script src="libs/leaflet/Toolbar.js"></script>-->
+  <!--<script src="libs/leaflet/Tooltip.js"></script>-->
+
+  <!--<script src="libs/leaflet/ext/GeometryUtil.js"></script>-->
+  <!--<script src="libs/leaflet/ext/LatLngUtil.js"></script>-->
+  <!--<script src="libs/leaflet/ext/LineUtil.Intersect.js"></script>-->
+  <!--<script src="libs/leaflet/ext/Polygon.Intersect.js"></script>-->
+  <!--<script src="libs/leaflet/ext/Polyline.Intersect.js"></script>-->
+  <!--<script src="libs/leaflet/ext/TouchEvents.js"></script>-->
+
+  <!--<script src="libs/leaflet/draw/DrawToolbar.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.Feature.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.SimpleShape.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.Polyline.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.Marker.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.CircleMarker.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.Circle.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.Polygon.js"></script>-->
+  <!--<script src="libs/leaflet/draw/handler/Draw.Rectangle.js"></script>-->
+
+
+  <!--<script src="libs/leaflet/edit/EditToolbar.js"></script>-->
+  <!--<script src="libs/leaflet/edit/handler/EditToolbar.Edit.js"></script>-->
+  <!--<script src="libs/leaflet/edit/handler/EditToolbar.Delete.js"></script>-->
+
+  <!--<script src="libs/leaflet/Control.Draw.js"></script>-->
+
+  <!--<script src="libs/leaflet/edit/handler/Edit.Poly.js"></script>-->
+  <!--<script src="libs/leaflet/edit/handler/Edit.SimpleShape.js"></script>-->
+  <!--<script src="libs/leaflet/edit/handler/Edit.Marker.js"></script>-->
+  <!--<script src="libs/leaflet/edit/handler/Edit.CircleMarker.js"></script>-->
+  <!--<script src="libs/leaflet/edit/handler/Edit.Circle.js"></script>-->
+  <!--<script src="libs/leaflet/edit/handler/Edit.Rectangle.js"></script>-->
+
   <style>
     body, html {
       width: 100%;
@@ -50,18 +91,36 @@
   <button type="button" onclick="Test3ClickHandler()">Test3</button>
 </div>
 
+<!--<script src="simpleLoader.js"></script>-->
 <script src="TGISAPI.js"></script>
 <script>
   var map = TMap.createNew({
     viewerUrl: "http://localhost:8090/TGISViewerLight_v200/",
     config: "http://localhost:8090/TGISViewerLight_v200/projects/LanZhou/config.json"
   }, "mapContainer", function () {
-    map.addPoints('{"defaultSymbol":{"url":"images/RedSphere.png","xoffset":32,"yoffset":32},"points":[{"id":"pt001","type":"police","geometry":{"x":103.8535,"y":36.0342},"symbol":{"url":"images/BlueSphere.png","xoffset":32,"yoffset":32}},{"id":"pt002","type":"police","geometry":{"x":103.8431,"y":36.053}},{"id":"pt003","type":"police","geometry":{"x":103.8541,"y":36.05}}]}');
+    map.addPoints('{"defaultSymbol":{"url":"images/RedSphere.png","xoffset":32,"yoffset":32},"points":[{"id":"pt001","type":"police","geometry":{"x":103.8535,"y":36.0342},"symbol":{"url":"images/BlueSphere.png","xoffset":32,"yoffset":32},"fields":{"姓名":"张三","状态":"在岗"}},{"id":"pt002","type":"police","geometry":{"x":103.8431,"y":36.053}},{"id":"pt003","type":"police","geometry":{"x":103.8541,"y":36.05}}]}');
+    map.addLines('{"defaultSymbol":{"color":"#ff0000"},"lines":[{"id":"wx001","type":"GPS","geometry":{"paths":[[[103.8535,36.0342],[103.8431,36.053],[103.8541,36.05]]]},"symbol":{"alpha":0.5, "width":5}}]}');
   });
 
   function Test1ClickHandler() {
     // map.deleteAllPoints();
-    map.deletePoints('{"types":["police"]}')
+    // map.deletePoints('{"types":["police"]}');
+    // map.deletePoints('{"ids":["pt001"]}');
+    // map.deleteLines('{"ids":["wx001"]}')
+    map.deleteAllLines();
+
+  }
+  
+  function Test2ClickHandler() {
+    
+  }
+  
+  function Test3ClickHandler() {
+    
+  }
+
+  function onBottomDockClick(id, state) {
+    console.log(id, state);
   }
 </script>
 

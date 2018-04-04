@@ -117,6 +117,7 @@ define([
 
       this.widgetManager.loadWidget(widgetConfig).then(
         lang.hitch(this, function(widget) {
+          widget.setPosition(widget.position);
           def.resolve(widget);
         }),
         function(error) {

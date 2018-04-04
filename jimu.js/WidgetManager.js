@@ -268,13 +268,12 @@ define([
         def.resolve("load");
         return def;
       }
-      var themeCommonStyleId =
-        "theme_" + this.appConfig.theme.name + "_style_common";
+      // var themeCommonStyleId =
+      //   "theme_" + this.appConfig.theme.name + "_style_common";
       //insert widget style before theme style, to let theme style over widget style
       return jimuUtils.loadStyleLink(
         id,
-        window.path + widgetSetting.styleFile,
-        themeCommonStyleId
+        window.path + widgetSetting.styleFile
       );
     },
 
