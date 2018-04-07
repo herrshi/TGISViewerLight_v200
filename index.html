@@ -6,6 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TGISViewer-Light</title>
 
+  <!--<script src="libs/json3.min.js"></script>-->
+  <!--<script src="libs/dojo/dojo/dojo.js"></script>-->
+
   <!--<script src="libs/leaflet/leaflet.js"></script>-->
   <!--<link rel="stylesheet" href="libs/leaflet/leaflet.js">-->
 
@@ -107,7 +110,8 @@
     // map.deletePoints('{"types":["police"]}');
     // map.deletePoints('{"ids":["pt001"]}');
     // map.deleteLines('{"ids":["wx001"]}')
-    map.deleteAllLines();
+    // map.deleteAllLines();
+    map.startDraw('{"type":"point"}');
 
   }
   

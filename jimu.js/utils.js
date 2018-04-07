@@ -2,9 +2,11 @@ define([
   "dojo/_base/lang",
   "dojo/_base/html",
   "dojo/_base/array",
+  "dojo/_base/config",
   "dojo/on",
+  "dojo/number",
   "dojo/Deferred"
-], function(lang, html, array, on, Deferred) {
+], function(lang, html, array, config, on, dojoNumber, Deferred) {
   var mo = {};
 
   var widgetProperties = [
@@ -444,6 +446,71 @@ define([
     }
 
     return info;
+  };
+
+  /*
+   *Optional
+   *An object with the following properties:
+   *pattern (String, optional):
+   *override formatting pattern with this string. Default value is based on locale.
+   Overriding this property will defeat localization. Literal characters in patterns
+   are not supported.
+   *type (String, optional):
+   *choose a format type based on the locale from the following: decimal, scientific
+   (not yet supported), percent, currency. decimal by default.
+   *places (Number, optional):
+   *fixed number of decimal places to show. This overrides any information in the provided pattern.
+   *round (Number, optional):
+   *5 rounds to nearest .5; 0 rounds to nearest whole (default). -1 means do not round.
+   *locale (String, optional):
+   *override the locale used to determine formatting rules
+   *fractional (Boolean, optional):
+   *If false, show no decimal places, overriding places and pattern settings.
+   */
+  mo.localizeNumber = function(num, options){
+    var decimalStr = num.toString().split(".")[1] || "",
+      decimalLen = decimalStr.length;
+    var _pattern = "";
+    var places = options && isFinite(options.places) && options.places;
+    if (places > 0 || decimalLen > 0) {
+      var patchStr = Array.prototype.join.call({
+        length: places > 0 ? (places + 1) : decimalLen
+      }, "0");
+      _pattern = "#,###,###,##0.0" + patchStr;
+    }else {
+      _pattern = "#,###,###,##0";
+    }
+
+    var _options = {
+      locale: config.locale,
+      pattern: _pattern
+    };
+    lang.mixin(_options, options || {});
+
+    try {
+      return dojoNumber.format(num, _options);
+    } catch (err) {
+      console.error(err);
+      return num.toLocaleString();
+    }
+  };
+
+  /*
+  *n: Number
+  *fieldInfo: https://developers.arcgis.com/javascript/jshelp/intro_popuptemplate.html
+  */
+  mo.localizeNumberByFieldInfo = function(n, fieldInfo) {
+    var fn = null;
+    var p = lang.exists("format.places", fieldInfo) && fieldInfo.format.places;
+    fn = mo.localizeNumber(n, {
+      places: p
+    });
+
+    if (lang.exists("format.digitSeparator", fieldInfo) && !fieldInfo.format.digitSeparator) {
+      return fn.toString().replace(new RegExp("\\" + nlsBundle.group, "g"), "");
+    } else {
+      return fn;
+    }
   };
 
   return mo;

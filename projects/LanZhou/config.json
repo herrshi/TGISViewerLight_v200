@@ -10,6 +10,7 @@
       }
     ],
     "mapOptions": {
+      "drawControl": true,
       "center": [36.046, 103.862],
       "zoom": 13
     }
@@ -18,6 +19,20 @@
     {
       "uri": "widgets/Overlay/Widget",
       "id": "OverlayWidget"
+    },
+    {
+      "uri": "widgets/BasicDraw/Widget",
+      "id": "BasicDrawWidget"
+    },
+    {
+      "uri": "widgets/Coordinate/Widget",
+      "id": "CoordinateWidget",
+      "position": {
+        "left": 15,
+        "bottom": 5,
+        "relativeTo": "map",
+        "zIndex": 600
+      }
     },
     {
       "uri": "widgets/BottomToolbar/Widget",

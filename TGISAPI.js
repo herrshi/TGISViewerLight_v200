@@ -157,6 +157,18 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteAllLines");
     });
+  },
+
+  /**
+   * 开始绘制
+   * @param params: string, json字符串
+   *   type: string, required. 绘制类型
+   *     "point" || "line" || "polygon" || "circle" || "rectangle"
+   * */
+  startDraw: function (params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("startDraw", params);
+    });
   }
   /************************ Overlay END **************************/
 };
