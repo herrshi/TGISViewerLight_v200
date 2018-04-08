@@ -71,21 +71,28 @@ define([
       });
 
       switch (this._drawType.toLowerCase()) {
+        //点
         case "point":
           var marker = L.marker(point);
           marker.addTo(this._drawLayer);
           break;
 
+        //线
         case "line":
+          //两个点时创建线对象
           if (this._pointList.length === 2) {
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
             this._refreshMap();
-          } else if (this._pointList.length > 2) {
+          }
+          //超过两个点时往线对象里加点
+          else if (this._pointList.length > 2) {
             this._currentPolyline.addLatLng(point);
           }
           break;
 
+        //面
         case "polygon":
+          //两个点时先连线
           if (this._pointList.length === 2) {
             // var latlngs = [
             //   [this._pointList[0].lat, this._pointList[0].lng],
@@ -94,9 +101,11 @@ define([
             // var tmpLine = L.polyline(latlngs).addTo(this._drawLayer);
             // this._refreshMap();
           }
+          //三个点时创建面对象
           else if (this._pointList.length === 3) {
             this._currentPolygon = L.polygon(latlngs).addTo(this._drawLayer);
           }
+          //超过三个点时往面对象里加点
           else if (this._pointList.length > 3) {
             this._currentPolygon.addLatLng(point);
           }
@@ -109,15 +118,19 @@ define([
 
       switch (this._drawType.toLowerCase()) {
         case "line":
+          //从第二个点开始画辅助线
           if (this._pointList.length >= 1) {
             var lastPoint = this._pointList[this._pointList.length - 1];
-            if (!this._tempPolyline) {
+            //第一个点以后创建辅助线
+            if (this._pointList.length === 1) {
               this._tempPolyline = L.polyline([
                 [lastPoint.lat, lastPoint.lng],
                 [point.lat, point.lng]
               ]).addTo(this._drawLayer);
               this._refreshMap();
-            } else {
+            }
+            //超过两个点时改变辅助线坐标
+            else {
               this._tempPolyline.setLatLngs([
                 [lastPoint.lat, lastPoint.lng],
                 [point.lat, point.lng]
