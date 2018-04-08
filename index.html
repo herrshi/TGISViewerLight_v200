@@ -6,50 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TGISViewer-Light</title>
 
-  <!--<script src="libs/json3.min.js"></script>-->
-  <!--<script src="libs/dojo/dojo/dojo.js"></script>-->
-
-  <!--<script src="libs/leaflet/leaflet.js"></script>-->
-  <!--<link rel="stylesheet" href="libs/leaflet/leaflet.js">-->
-
-  <!--<script src="libs/leaflet/Leaflet.draw.js"></script>-->
-  <!--<script src="libs/leaflet/Leaflet.Draw.Event.js"></script>-->
-  <!--<link rel="stylesheet" href="libs/leaflet/leaflet.draw.css" />-->
-
-  <!--<script src="libs/leaflet/Toolbar.js"></script>-->
-  <!--<script src="libs/leaflet/Tooltip.js"></script>-->
-
-  <!--<script src="libs/leaflet/ext/GeometryUtil.js"></script>-->
-  <!--<script src="libs/leaflet/ext/LatLngUtil.js"></script>-->
-  <!--<script src="libs/leaflet/ext/LineUtil.Intersect.js"></script>-->
-  <!--<script src="libs/leaflet/ext/Polygon.Intersect.js"></script>-->
-  <!--<script src="libs/leaflet/ext/Polyline.Intersect.js"></script>-->
-  <!--<script src="libs/leaflet/ext/TouchEvents.js"></script>-->
-
-  <!--<script src="libs/leaflet/draw/DrawToolbar.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.Feature.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.SimpleShape.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.Polyline.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.Marker.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.CircleMarker.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.Circle.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.Polygon.js"></script>-->
-  <!--<script src="libs/leaflet/draw/handler/Draw.Rectangle.js"></script>-->
-
-
-  <!--<script src="libs/leaflet/edit/EditToolbar.js"></script>-->
-  <!--<script src="libs/leaflet/edit/handler/EditToolbar.Edit.js"></script>-->
-  <!--<script src="libs/leaflet/edit/handler/EditToolbar.Delete.js"></script>-->
-
-  <!--<script src="libs/leaflet/Control.Draw.js"></script>-->
-
-  <!--<script src="libs/leaflet/edit/handler/Edit.Poly.js"></script>-->
-  <!--<script src="libs/leaflet/edit/handler/Edit.SimpleShape.js"></script>-->
-  <!--<script src="libs/leaflet/edit/handler/Edit.Marker.js"></script>-->
-  <!--<script src="libs/leaflet/edit/handler/Edit.CircleMarker.js"></script>-->
-  <!--<script src="libs/leaflet/edit/handler/Edit.Circle.js"></script>-->
-  <!--<script src="libs/leaflet/edit/handler/Edit.Rectangle.js"></script>-->
-
   <style>
     body, html {
       width: 100%;
@@ -111,12 +67,14 @@
     // map.deletePoints('{"ids":["pt001"]}');
     // map.deleteLines('{"ids":["wx001"]}')
     // map.deleteAllLines();
-    map.startDraw('{"type":"point"}');
+    // map.startDraw('{"type":"polygon"}');
+    map.hidePoints('{"types":["police"]}');
 
   }
   
   function Test2ClickHandler() {
-    
+    map.stopDraw();
+    map.showPoints('{"types":["police"]}');
   }
   
   function Test3ClickHandler() {

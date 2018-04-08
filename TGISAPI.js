@@ -107,6 +107,26 @@ var TMap = {
   },
 
   /**
+   * 显示指定覆盖物
+   * 参数同deletePoints
+   * */
+  showPoints: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showPoints", params);
+    });
+  },
+
+  /**
+   * 隐藏指定覆盖物
+   * 参数同deletePoints, 但不删除, 只是隐藏
+   * */
+  hidePoints: function(params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hidePoints", params);
+    });
+  },
+
+  /**
    * 在地图上添加线覆盖物
    * symbol: 线覆盖物的样式
    *   color: string, optional. 颜色.
@@ -168,6 +188,20 @@ var TMap = {
   startDraw: function (params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startDraw", params);
+    });
+  },
+
+  /**停止绘制*/
+  stopDraw: function () {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("stopDraw");
+    });
+  },
+
+  /**清除绘制内容*/
+  clearDraw: function () {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("clearDraw");
     });
   }
   /************************ Overlay END **************************/

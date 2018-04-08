@@ -29,6 +29,14 @@ define([
         "deleteAllPoints",
         lang.hitch(this, this.onTopicHandler_deleteAllPoints)
       );
+      topic.subscribe(
+        "showPoints",
+        lang.hitch(this, this.onTopicHandler_showPoints)
+      );
+      topic.subscribe(
+        "hidePoints",
+        lang.hitch(this, this.onTopicHandler_hidePoints)
+      );
 
       topic.subscribe(
         "addLines",
@@ -117,6 +125,27 @@ define([
       }
     },
 
+    _setOpacity: function(layerGroup, types, ids, opacity) {
+      for (var i = 0; i < layerGroup.getLayers().length; i++) {
+        var marker = layerGroup.getLayers()[i];
+
+        if (
+          (types.length > 0 &&
+            ids.length === 0 &&
+            types.indexOf(marker.type) >= 0) ||
+          (types.length === 0 &&
+            ids.length > 0 &&
+            ids.indexOf(marker.id) >= 0) ||
+          (types.length > 0 &&
+            ids.length > 0 &&
+            types.indexOf(marker.type) >= 0 &&
+            ids.indexOf(marker.id) >= 0)
+        ) {
+          marker.setOpacity(opacity);
+        }
+      }
+    },
+
     onTopicHandler_addPoints: function(params) {
       var paramsObj = JSON.parse(params);
       var defaultIcon = this._getIcon(paramsObj.defaultSymbol);
@@ -151,6 +180,22 @@ define([
       var ids = paramsObj.ids || [];
 
       this._deleteOverlay(this._markerLayer, types, ids);
+    },
+
+    onTopicHandler_showPoints: function(params) {
+      var paramsObj = JSON.parse(params);
+      var types = paramsObj.types || [];
+      var ids = paramsObj.ids || [];
+
+      this._setOpacity(this._markerLayer, types, ids, 1);
+    },
+
+    onTopicHandler_hidePoints: function(params) {
+      var paramsObj = JSON.parse(params);
+      var types = paramsObj.types || [];
+      var ids = paramsObj.ids || [];
+
+      this._setOpacity(this._markerLayer, types, ids, 0);
     },
 
     onTopicHandler_deleteAllPoints: function() {
