@@ -5,7 +5,7 @@
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TGISViewer-Light</title>
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
     body, html {
       width: 100%;
@@ -50,14 +50,13 @@
   <button type="button" onclick="Test3ClickHandler()">Test3</button>
 </div>
 
-<!--<script src="simpleLoader.js"></script>-->
 <script src="TGISAPI.js"></script>
 <script>
   var map = TMap.createNew({
     viewerUrl: "http://localhost:8090/TGISViewerLight_v200/",
     config: "http://localhost:8090/TGISViewerLight_v200/projects/LanZhou/config.json"
   }, "mapContainer", function () {
-    map.addPoints('{"defaultSymbol":{"url":"images/RedSphere.png","xoffset":32,"yoffset":32},"points":[{"id":"pt001","type":"police","geometry":{"x":103.8535,"y":36.0342},"symbol":{"url":"images/BlueSphere.png","xoffset":32,"yoffset":32},"fields":{"姓名":"张三","状态":"在岗"}},{"id":"pt002","type":"police","geometry":{"x":103.8431,"y":36.053}},{"id":"pt003","type":"police","geometry":{"x":103.8541,"y":36.05}}]}');
+    map.addPoints('{"defaultSymbol":{"url":"images/RedSphere.png","xoffset":32,"yoffset":32},"points":[{"id":"pt001","type":"police","geometry":{"x":103.8535,"y":36.0342},"symbol":{"url":"images/BlueSphere.png","xoffset":32,"yoffset":32},"fields":{"姓名":"张三","状态":"在岗"}},{"id":"pt002","type":"police","geometry":{"x":103.8431,"y":36.053},"content":"<b>金昌北路-南滨河路</b><select><option value='+"111"+'>金昌北路-南滨河路(十字)((东)车尾东向西1)</option></select>"},{"id":"pt003","type":"police","geometry":{"x":103.8541,"y":36.05}}]}');
     map.addLines('{"defaultSymbol":{"color":"#ff0000"},"lines":[{"id":"wx001","type":"GPS","geometry":{"paths":[[[103.8535,36.0342],[103.8431,36.053],[103.8541,36.05]]]},"symbol":{"alpha":0.5, "width":5}}]}');
   });
 
@@ -67,8 +66,8 @@
     // map.deletePoints('{"ids":["pt001"]}');
     // map.deleteLines('{"ids":["wx001"]}')
     // map.deleteAllLines();
-    // map.startDraw('{"type":"polygon"}');
-    map.hidePoints('{"types":["police"]}');
+    map.startDraw('{"type":"polygon","showMeasure":true}');
+    // map.hidePoints('{"types":["police"]}');
 
   }
   

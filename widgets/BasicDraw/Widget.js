@@ -5,13 +5,26 @@ define([
   "dojo/topic",
   "dojo/on",
   "dojo/dom-style",
+  "dojo/dom-construct",
   "jimu/BaseWidget"
-], function(declare, lang, array, topic, on, domStyle, BaseWidget) {
+], function(
+  declare,
+  lang,
+  array,
+  topic,
+  on,
+  domStyle,
+  domConstruct,
+  BaseWidget
+) {
   return declare([BaseWidget], {
     _drawType: "",
+    _showMeasure: false,
     _drawLayer: null,
     _pointList: [],
     _defaultCursor: "auto",
+
+    _tooltipDivId: "drawTooltip",
 
     _currentPolyline: null,
     _currentPolygon: null,
@@ -25,6 +38,13 @@ define([
         document.getElementById(jimuConfig.mapId),
         "cursor"
       );
+      //显示tooltip
+      domConstruct.place(
+        "<div id='" +
+          this._tooltipDivId +
+          "' style='display: none;position: fixed;overflow: hidden;z-index: 999;border: 1px solid #7EABCD;background-color: white;border-radius: 4px;padding: 5px'></div>",
+        document.getElementById(jimuConfig.mapId)
+      );
       topic.subscribe("startDraw", lang.hitch(this, this.onStartDraw));
       topic.subscribe("stopDraw", lang.hitch(this, this.onStopDraw));
     },
@@ -32,6 +52,7 @@ define([
     onStartDraw: function(params) {
       var paramsObj = JSON.parse(params);
       this._drawType = paramsObj.type;
+      this._showMeasure = !!paramsObj.showMeasure;
       //禁用双击放大, 将双击事件留给停止绘制
       this.map.doubleClickZoom.disable();
       this._pointList = [];
@@ -41,6 +62,15 @@ define([
         "cursor",
         "crosshair"
       );
+      //显示tooltip
+      domStyle.set(
+        document.getElementById(this._tooltipDivId),
+        "display",
+        "block"
+      );
+      document.getElementById(
+        this._tooltipDivId
+      ).innerHTML = this.config.tooltip.startDraw;
 
       this.map.on("click", lang.hitch(this, this.onMapClick));
       this.map.on("mousemove", lang.hitch(this, this.onMapMouseMove));
@@ -60,6 +90,12 @@ define([
         document.getElementById(jimuConfig.mapId),
         "cursor",
         this._defaultCursor
+      );
+      //隐藏tooltip
+      domStyle.set(
+        document.getElementById(this._tooltipDivId),
+        "display",
+        "none"
       );
     },
 
@@ -82,12 +118,22 @@ define([
           //删除辅助线
           if (this._tempPolyline) {
             this._drawLayer.removeLayer(this._tempPolyline);
+            this._tempPolyline = null;
           }
+          document.getElementById(
+            this._tooltipDivId
+          ).innerHTML = this.config.tooltip.continueDraw;
           if (this._pointList.length === 2) {
+            document.getElementById(
+              this._tooltipDivId
+            ).innerHTML = this.config.tooltip.finishDraw;
             //两个点时创建线对象
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
             this._refreshMap();
           } else if (this._pointList.length > 2) {
+            document.getElementById(
+              this._tooltipDivId
+            ).innerHTML = this.config.tooltip.finishDraw;
             //超过两个点时往线对象里加点
             this._currentPolyline.addLatLng(point);
           }
@@ -98,19 +144,33 @@ define([
           //删除辅助线和面
           if (this._tempPolyline) {
             this._drawLayer.removeLayer(this._tempPolyline);
+            this._tempPolyline = null;
           }
           if (this._tempPolygon) {
             this._drawLayer.removeLayer(this._tempPolygon);
+            this._tempPolygon = null;
           }
+          document.getElementById(
+            this._tooltipDivId
+          ).innerHTML = this.config.tooltip.continueDraw;
           if (this._pointList.length === 2) {
+            document.getElementById(
+              this._tooltipDivId
+            ).innerHTML = this.config.tooltip.finishDraw;
             //两个点时连线
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
             this._refreshMap();
           } else if (this._pointList.length === 3) {
+            document.getElementById(
+              this._tooltipDivId
+            ).innerHTML = this.config.tooltip.finishDraw;
             //三个点时先删除前两个点的连线, 再创建面对象
             this._drawLayer.removeLayer(this._currentPolyline);
             this._currentPolygon = L.polygon(latlngs).addTo(this._drawLayer);
           } else if (this._pointList.length > 3) {
+            document.getElementById(
+              this._tooltipDivId
+            ).innerHTML = this.config.tooltip.finishDraw;
             //超过三个点时往面对象里加点
             this._currentPolygon.addLatLng(point);
           }
@@ -120,6 +180,13 @@ define([
 
     onMapMouseMove: function(event) {
       var point = event.latlng;
+
+      //tooltip
+      var containerPoint = event.containerPoint;
+      var tooltip = document.getElementById("drawTooltip");
+      tooltip.style.display = "block";
+      tooltip.style.top = containerPoint.y - 15 + "px";
+      tooltip.style.left = containerPoint.x + 15 + "px";
 
       switch (this._drawType.toLowerCase()) {
         case "line":
@@ -171,7 +238,7 @@ define([
             if (!this._tempPolygon) {
               this._tempPolygon = L.polygon(latlngs).addTo(this._drawLayer);
             } else {
-              this._tempPolygon.setLatLng(latlngs);
+              this._tempPolygon.setLatLngs(latlngs);
             }
           }
           break;
@@ -183,6 +250,9 @@ define([
       this._tempPolyline = null;
       this._currentPolyline = null;
       this._currentPolygon = null;
+      document.getElementById(
+        this._tooltipDivId
+      ).innerHTML = this.config.tooltip.startDraw;
     },
 
     _refreshMap: function() {
