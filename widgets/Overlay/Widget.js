@@ -2,9 +2,11 @@ define([
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/_base/array",
+  "dojo/_base/fx",
   "dojo/topic",
+  "dojo/dom-style",
   "jimu/BaseWidget"
-], function(declare, lang, array, topic, BaseWidget) {
+], function(declare, lang, array, fx, topic, domStyle, BaseWidget) {
   return declare([BaseWidget], {
     _markerLayer: null,
     _polylineLayer: null,
@@ -110,14 +112,14 @@ define([
         if (
           (types.length > 0 &&
             ids.length === 0 &&
-            types.indexOf(marker.type) >= 0) ||
+            array.indexOf(types, marker.type) >= 0) ||
           (types.length === 0 &&
             ids.length > 0 &&
-            ids.indexOf(marker.id) >= 0) ||
+            array.indexOf(ids, marker.id) >= 0) ||
           (types.length > 0 &&
             ids.length > 0 &&
-            types.indexOf(marker.type) >= 0 &&
-            ids.indexOf(marker.id) >= 0)
+            array.indexOf(types, marker.type) >= 0 &&
+            array.indexOf(ids, marker.id) >= 0)
         ) {
           layerGroup.removeLayer(marker);
           i--;
@@ -132,16 +134,31 @@ define([
         if (
           (types.length > 0 &&
             ids.length === 0 &&
-            types.indexOf(marker.type) >= 0) ||
+            array.indexOf(types, marker.type) >= 0) ||
           (types.length === 0 &&
             ids.length > 0 &&
-            ids.indexOf(marker.id) >= 0) ||
+            array.indexOf(ids, marker.id) >= 0) ||
           (types.length > 0 &&
             ids.length > 0 &&
-            types.indexOf(marker.type) >= 0 &&
-            ids.indexOf(marker.id) >= 0)
+            array.indexOf(types, marker.type) >= 0 &&
+            array.indexOf(ids, marker.id) >= 0)
         ) {
-          marker.setOpacity(opacity);
+          if (opacity === 0) {
+            if (L.Browser.ielt9) {
+              domStyle.set(marker._icon, "display", "none");
+            }
+            else {
+              fx.fadeOut({node: marker._icon}).play();
+            }
+          } else {
+            if (L.Browser.ielt9) {
+              domStyle.set(marker._icon, "display", "block");
+            }
+            else {
+              fx.fadeIn({node: marker._icon}).play();
+            }
+          }
+
         }
       }
     },
@@ -187,7 +204,7 @@ define([
       var types = paramsObj.types || [];
       var ids = paramsObj.ids || [];
 
-      this._setOpacity(this._markerLayer, types, ids, 1);
+      this._setOpacity(this._markerLayer, types, ids, 1.0);
     },
 
     onTopicHandler_hidePoints: function(params) {
@@ -195,7 +212,7 @@ define([
       var types = paramsObj.types || [];
       var ids = paramsObj.ids || [];
 
-      this._setOpacity(this._markerLayer, types, ids, 0);
+      this._setOpacity(this._markerLayer, types, ids, 0.0);
     },
 
     onTopicHandler_deleteAllPoints: function() {

@@ -66,7 +66,7 @@ define([
     onMapClick: function(event) {
       var point = event.latlng;
       this._pointList.push(point);
-      var latlngs = array.map(this._pointList, function (point) {
+      var latlngs = array.map(this._pointList, function(point) {
         return [point.lat, point.lng];
       });
 
@@ -79,34 +79,39 @@ define([
 
         //线
         case "line":
-          //两个点时创建线对象
+          //删除辅助线
+          if (this._tempPolyline) {
+            this._drawLayer.removeLayer(this._tempPolyline);
+          }
           if (this._pointList.length === 2) {
+            //两个点时创建线对象
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
             this._refreshMap();
-          }
-          //超过两个点时往线对象里加点
-          else if (this._pointList.length > 2) {
+          } else if (this._pointList.length > 2) {
+            //超过两个点时往线对象里加点
             this._currentPolyline.addLatLng(point);
           }
           break;
 
         //面
         case "polygon":
-          //两个点时先连线
+          //删除辅助线和面
+          if (this._tempPolyline) {
+            this._drawLayer.removeLayer(this._tempPolyline);
+          }
+          if (this._tempPolygon) {
+            this._drawLayer.removeLayer(this._tempPolygon);
+          }
           if (this._pointList.length === 2) {
-            // var latlngs = [
-            //   [this._pointList[0].lat, this._pointList[0].lng],
-            //   [this._pointList[1].lat, this._pointList[1].lng]
-            // ];
-            // var tmpLine = L.polyline(latlngs).addTo(this._drawLayer);
-            // this._refreshMap();
-          }
-          //三个点时创建面对象
-          else if (this._pointList.length === 3) {
+            //两个点时连线
+            this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
+            this._refreshMap();
+          } else if (this._pointList.length === 3) {
+            //三个点时先删除前两个点的连线, 再创建面对象
+            this._drawLayer.removeLayer(this._currentPolyline);
             this._currentPolygon = L.polygon(latlngs).addTo(this._drawLayer);
-          }
-          //超过三个点时往面对象里加点
-          else if (this._pointList.length > 3) {
+          } else if (this._pointList.length > 3) {
+            //超过三个点时往面对象里加点
             this._currentPolygon.addLatLng(point);
           }
           break;
@@ -118,19 +123,18 @@ define([
 
       switch (this._drawType.toLowerCase()) {
         case "line":
-          //从第二个点开始画辅助线
+          //至少有一个点时画辅助线
           if (this._pointList.length >= 1) {
             var lastPoint = this._pointList[this._pointList.length - 1];
-            //第一个点以后创建辅助线
-            if (this._pointList.length === 1) {
+            if (!this._tempPolyline) {
+              //创建辅助线
               this._tempPolyline = L.polyline([
                 [lastPoint.lat, lastPoint.lng],
                 [point.lat, point.lng]
               ]).addTo(this._drawLayer);
               this._refreshMap();
-            }
-            //超过两个点时改变辅助线坐标
-            else {
+            } else {
+              //改变辅助线坐标
               this._tempPolyline.setLatLngs([
                 [lastPoint.lat, lastPoint.lng],
                 [point.lat, point.lng]
@@ -139,14 +143,46 @@ define([
           }
 
           break;
+
+        case "polygon":
+          if (this._pointList.length === 1) {
+            //只有一个点时画辅助线
+            lastPoint = this._pointList[0];
+            if (!this._tempPolyline) {
+              //创建辅助线
+              this._tempPolyline = L.polyline([
+                [lastPoint.lat, lastPoint.lng],
+                [point.lat, point.lng]
+              ]).addTo(this._drawLayer);
+              this._refreshMap();
+            } else {
+              //改变辅助线坐标
+              this._tempPolyline.setLatLngs([
+                [lastPoint.lat, lastPoint.lng],
+                [point.lat, point.lng]
+              ]);
+            }
+          } else if (this._pointList.length >= 2) {
+            //超过2个点时画辅助面
+            var latlngs = array.map(this._pointList, function(point) {
+              return [point.lat, point.lng];
+            });
+            latlngs.push([point.lat, point.lng]);
+            if (!this._tempPolygon) {
+              this._tempPolygon = L.polygon(latlngs).addTo(this._drawLayer);
+            } else {
+              this._tempPolygon.setLatLng(latlngs);
+            }
+          }
+          break;
       }
     },
 
     onMapDoubleClick: function(event) {
-      // this.map.off("mousemove");
       this._pointList = [];
       this._tempPolyline = null;
       this._currentPolyline = null;
+      this._currentPolygon = null;
     },
 
     _refreshMap: function() {
