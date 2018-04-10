@@ -1,0 +1,10 @@
+.tooltipDiv {
+  display: none;
+  position: fixed;
+  overflow: hidden;
+  z-index: 999;
+  border: 1px solid #7eabcd;
+  background-color: white;
+  border-radius: 4px;
+  padding: 1px;
+}

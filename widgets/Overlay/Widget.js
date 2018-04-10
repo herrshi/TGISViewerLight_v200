@@ -181,7 +181,7 @@ define([
           }
           if (pointObj.content || pointObj.fields) {
             marker.bindPopup(
-              pointObj.content || this._getPopupContent(pointObj.fields)
+              pointObj.content || this._getPopupContent(pointObj.fields), {maxWidth: 500}
             );
           }
           marker.id = pointObj.id;
