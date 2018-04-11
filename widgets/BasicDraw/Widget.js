@@ -104,6 +104,7 @@ define([
     onMapClick: function(event) {
       var point = event.latlng;
       this._pointList.push(point);
+
       var latlngs = array.map(this._pointList, function(point) {
         return [point.lat, point.lng];
       });
@@ -124,19 +125,32 @@ define([
           }
 
           //添加节点图标
-          var vectorMarker = L.marker(point, {icon: this._vectorIcon}).addTo(this._drawLayer);
+          var vectorMarker = L.marker(point, { icon: this._vectorIcon }).addTo(
+            this._drawLayer
+          );
           //显示线段长度
-          if (this._showMeasure && this._pointList.length >= 2) {
-            var lastPoint = this._pointList[this._pointList.length - 2];
-            var distance = jimuUtils.geometryUtils.getDistance(lastPoint.lat, lastPoint.lng, point.lat, point.lng);
-            var vectorDiv = domConstruct.place(
-              "<div class='tooltipDiv'>" + distance.toFixed(3) + "公里</div>",
-              document.getElementById(jimuConfig.mapId)
-            );
-            var containerPoint = event.containerPoint;
-            domStyle.set(vectorDiv, "display", "block");
-            domStyle.set(vectorDiv, "top", containerPoint.y - 15 + "px");
-            domStyle.set(vectorDiv, "left", containerPoint.x + 15 + "px");
+          if (this._showMeasure) {
+            if (!L.Browser.ielt9) {
+              if (this._pointList.length === 1) {
+                vectorMarker.bindTooltip("起点", {
+                  permanent: true,
+                  className: "tooltipDiv"
+                });
+              } else {
+                var distance = this.map.distance(
+                  this._pointList[this._pointList.length - 1],
+                  this._pointList[this._pointList.length - 2]
+                );
+                var tooltipText =
+                  distance < 1000
+                    ? Math.round(distance) + "米"
+                    : (distance / 1000).toFixed(2) + "公里";
+                vectorMarker.bindTooltip(tooltipText, {
+                  permanent: true,
+                  className: "tooltipDiv"
+                });
+              }
+            }
           }
 
           if (!this._showMeasure) {
@@ -219,21 +233,27 @@ define([
               var totalLength = 0;
               if (this._pointList.length >= 2) {
                 for (var i = 0; i < this._pointList.length - 1; i++) {
-                  totalLength += jimuUtils.geometryUtils.getDistance(
-                    this._pointList[i].lat,
-                    this._pointList[i].lng,
-                    this._pointList[i + 1].lat,
-                    this._pointList[i + 1].lng
+                  totalLength += this.map.distance(
+                    this._pointList[i],
+                    this._pointList[i + 1]
                   );
                 }
               }
-              totalLength += jimuUtils.geometryUtils.getDistance(
-                lastPoint.lat,
-                lastPoint.lng,
-                point.lat,
-                point.lng
-              );
-              this._tooltipDiv.innerHTML = "总长: <font color='#ff8000'>" + totalLength.toFixed(3) + "</font>公里<br>" + this.config.tooltip.finishDraw;
+              totalLength += this.map.distance(lastPoint, point);
+              var tooltipText =
+                totalLength < 1000
+                  ? "<font color='#ff8000'>" +
+                    Math.round(totalLength) +
+                    "</font>米"
+                  : "<font color='#ff8000'>" +
+                    (totalLength / 1000).toFixed(2) +
+                    "</font>公里";
+
+              this._tooltipDiv.innerHTML =
+                "总长: " +
+                tooltipText +
+                "<br>" +
+                this.config.tooltip.finishDraw;
             }
           }
 

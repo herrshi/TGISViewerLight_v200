@@ -203,6 +203,19 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearDraw");
     });
-  }
+  },
   /************************ Overlay END **************************/
+
+  /************************ Search BEGIN **************************/
+  /**
+   * 根据id查找要素
+   * @param params: string, json字符串
+   *   id: string, required.
+   * */
+  findFeature: function (params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("findFeature", params);
+    });
+  }
+  /************************ Search END **************************/
 };

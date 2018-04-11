@@ -52,6 +52,11 @@ define([
         "deleteAllLines",
         lang.hitch(this, this.onTopicHandler_deleteAllLines)
       );
+
+      topic.subscribe(
+        "findFeature",
+        lang.hitch(this, this.onTopicHandler_findFeature)
+      );
     },
 
     /**将arcgis的PictureMarkerSymbol转换为leaflet的icon*/
@@ -146,19 +151,27 @@ define([
           if (opacity === 0) {
             if (L.Browser.ielt9) {
               domStyle.set(marker._icon, "display", "none");
+            } else {
+              fx.fadeOut({ node: marker._icon }).play();
             }
-            else {
-              fx.fadeOut({node: marker._icon}).play();
+            //解除弹出框绑定, 否则还是会响应
+            if (marker.popup) {
+              if (marker.isPopupOpen) {
+                marker.closePopup();
+              }
+              marker.unbindPopup();
             }
           } else {
             if (L.Browser.ielt9) {
               domStyle.set(marker._icon, "display", "block");
+            } else {
+              fx.fadeIn({ node: marker._icon }).play();
             }
-            else {
-              fx.fadeIn({node: marker._icon}).play();
+            //绑定弹出框
+            if (marker.popup) {
+              marker.bindPopup(marker.popup);
             }
           }
-
         }
       }
     },
@@ -181,8 +194,10 @@ define([
           }
           if (pointObj.content || pointObj.fields) {
             marker.bindPopup(
-              pointObj.content || this._getPopupContent(pointObj.fields), {maxWidth: 500}
+              pointObj.content || this._getPopupContent(pointObj.fields),
+              { maxWidth: 1000 }
             );
+            marker.popup = marker.getPopup();
           }
           marker.id = pointObj.id;
           marker.type = pointObj.type;
@@ -255,6 +270,33 @@ define([
 
     onTopicHandler_deleteAllLines: function() {
       this._polylineLayer.clearLayers();
+    },
+
+    _flashFeature: function(feature) {
+      var interval = setInterval(function() {
+        if (domStyle.get(feature._icon, "display") === "none") {
+          domStyle.set(feature._icon, "display", "block");
+        } else {
+          domStyle.set(feature._icon, "display", "none");
+        }
+      }, 500);
+
+      setTimeout(function() {
+        clearInterval(interval);
+        domStyle.set(feature._icon, "display", "block");
+      }, 5000);
+    },
+
+    onTopicHandler_findFeature: function(params) {
+      var paramsObj = JSON.parse(params);
+      var id = paramsObj.id;
+
+      this.map.eachLayer(function(layer) {
+        if (layer.id === id) {
+          this.map.flyTo(layer.getLatLng());
+          this._flashFeature(layer);
+        }
+      }, this);
     },
 
     _refreshMap: function() {

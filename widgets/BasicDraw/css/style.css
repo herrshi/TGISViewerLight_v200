@@ -1,5 +1,4 @@
 .tooltipDiv {
-  display: none;
   position: fixed;
   overflow: hidden;
   z-index: 999;
