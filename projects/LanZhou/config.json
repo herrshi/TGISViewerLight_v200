@@ -21,6 +21,10 @@
       "id": "OverlayWidget"
     },
     {
+      "uri": "widgets/OD/Widget",
+      "id": "ODWidget"
+    },
+    {
       "uri": "widgets/BasicDraw/Widget",
       "id": "BasicDrawWidget"
     },

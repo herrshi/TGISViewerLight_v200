@@ -216,6 +216,29 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("findFeature", params);
     });
-  }
+  },
   /************************ Search END **************************/
+
+  /************************ Utils END **************************/
+  /**
+   * 显示OD数据
+   * @param params: string, json字符串
+   *   type: string, required. 类型, "O" || "D".
+   *   startID: string, optional. O分析时为O点ID, D分析时为D点ID.
+   *   startPoint: object, optional. 不传ID时使用坐标定位.
+   *     x: number, required.
+   *     y: number, required.
+   *   endFlows: [object]. required. O分析时为D点数据, D分析时为O点数据.
+   *     ID: string, optional. O分析时为D点ID, D分析时为O点ID.
+   *     point: object, optional. 不传ID时使用坐标定位.
+   *     x: number, required.
+   *     y: number, required.
+   *     flow: number, required. O分析时为D点流量, D分析时为O点流量
+   * */
+  showOD: function (params) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showOD", params);
+    });
+  }
+  /************************ Utils END **************************/
 };
