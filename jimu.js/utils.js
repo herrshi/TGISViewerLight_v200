@@ -467,17 +467,20 @@ define([
    *fractional (Boolean, optional):
    *If false, show no decimal places, overriding places and pattern settings.
    */
-  mo.localizeNumber = function(num, options){
+  mo.localizeNumber = function(num, options) {
     var decimalStr = num.toString().split(".")[1] || "",
       decimalLen = decimalStr.length;
     var _pattern = "";
     var places = options && isFinite(options.places) && options.places;
     if (places > 0 || decimalLen > 0) {
-      var patchStr = Array.prototype.join.call({
-        length: places > 0 ? (places + 1) : decimalLen
-      }, "0");
+      var patchStr = Array.prototype.join.call(
+        {
+          length: places > 0 ? places + 1 : decimalLen
+        },
+        "0"
+      );
       _pattern = "#,###,###,##0.0" + patchStr;
-    }else {
+    } else {
       _pattern = "#,###,###,##0";
     }
 
@@ -506,14 +509,17 @@ define([
       places: p
     });
 
-    if (lang.exists("format.digitSeparator", fieldInfo) && !fieldInfo.format.digitSeparator) {
+    if (
+      lang.exists("format.digitSeparator", fieldInfo) &&
+      !fieldInfo.format.digitSeparator
+    ) {
       return fn.toString().replace(new RegExp("\\" + nlsBundle.group, "g"), "");
     } else {
       return fn;
     }
   };
 
-  mo.geometryUtils = (function () {
+  mo.geometryUtils = (function() {
     var ret = {};
 
     function rad(d) {
@@ -522,15 +528,49 @@ define([
 
     var EARTH_RADIUS = 6378.137;
 
-    ret.getDistance = function (lat1, lng1, lat2, lng2) {
+    ret.getDistance = function(lat1, lng1, lat2, lng2) {
       var radLat1 = rad(lat1);
       var radLat2 = rad(lat2);
       var a = radLat1 - radLat2;
       var b = rad(lng1) - rad(lng2);
-      var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+      var s =
+        2 *
+        Math.asin(
+          Math.sqrt(
+            Math.pow(Math.sin(a / 2), 2) +
+              Math.cos(radLat1) *
+                Math.cos(radLat2) *
+                Math.pow(Math.sin(b / 2), 2)
+          )
+        );
       s = s * EARTH_RADIUS;
       s = Math.round(s * 10000) / 10000;
       return s;
+    };
+
+    ret.isMarkerInsidePolygon = function(marker, poly) {
+      var inside = false;
+      var x = marker.getLatLng().lat,
+        y = marker.getLatLng().lng;
+      for (var ii = 0; ii < poly.getLatLngs().length; ii++) {
+        var polyPoints = poly.getLatLngs()[ii];
+        for (
+          var i = 0, j = polyPoints.length - 1;
+          i < polyPoints.length;
+          j = i++
+        ) {
+          var xi = polyPoints[i].lat,
+            yi = polyPoints[i].lng;
+          var xj = polyPoints[j].lat,
+            yj = polyPoints[j].lng;
+
+          var intersect =
+            (yi > y !== yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
+          if (intersect) inside = !inside;
+        }
+      }
+
+      return inside;
     };
 
     return ret;

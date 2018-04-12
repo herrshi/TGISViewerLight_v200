@@ -156,7 +156,7 @@ var TMap = {
    * @sample
    *   map.addLines('{"defaultSymbol":{"color":"#ff0000"},"lines":[{"id":"wx001","type":"GPS","geometry":{"paths":[[[103.8535,36.0342],[103.8431,36.053],[103.8541,36.05]]]},"symbol":{"alpha":0.5, "width":5}}]}');
    * */
-  addLines: function (params) {
+  addLines: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addLines", params);
     });
@@ -166,14 +166,14 @@ var TMap = {
    * 删除指定线覆盖物
    * 参数同deletePoints
    * */
-  deleteLines: function (params) {
+  deleteLines: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteLines", params);
     });
   },
 
   /**删除所有线覆盖物*/
-  deleteAllLines: function () {
+  deleteAllLines: function() {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteAllLines");
     });
@@ -185,21 +185,21 @@ var TMap = {
    *   type: string, required. 绘制类型
    *     "point" || "line" || "polygon" || "circle" || "rectangle"
    * */
-  startDraw: function (params) {
+  startDraw: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("startDraw", params);
     });
   },
 
   /**停止绘制*/
-  stopDraw: function () {
+  stopDraw: function() {
     require(["dojo/topic"], function(topic) {
       topic.publish("stopDraw");
     });
   },
 
   /**清除绘制内容*/
-  clearDraw: function () {
+  clearDraw: function() {
     require(["dojo/topic"], function(topic) {
       topic.publish("clearDraw");
     });
@@ -212,9 +212,27 @@ var TMap = {
    * @param params: string, json字符串
    *   id: string, required.
    * */
-  findFeature: function (params) {
+  findFeature: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("findFeature", params);
+    });
+  },
+
+  /**
+   * 图形搜索
+   * @param params: string, json字符串
+   *   geoType: string, optional.
+   *     图形类型, 默认为polygon
+   *   userDraw: boolean, required.
+   *     true: 用户绘制图形
+   *     false: 参数传入图形
+   *   geometry: object. optional
+   *   onlyVisible: boolean, optional.
+   *     是否只搜索可见要素. 默认为true
+   * */
+  geometrySearch: function(params, callback) {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("geometrySearch", { params: params, callback: callback });
     });
   },
   /************************ Search END **************************/
@@ -235,14 +253,14 @@ var TMap = {
    *     y: number, required.
    *     flow: number, required. O分析时为D点流量, D分析时为O点流量
    * */
-  addOD: function (params) {
+  addOD: function(params) {
     require(["dojo/topic"], function(topic) {
       topic.publish("addOD", params);
     });
   },
 
   /**清除OD数据*/
-  deleteOD: function () {
+  deleteOD: function() {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteOD");
     });
