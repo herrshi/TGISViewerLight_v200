@@ -10,7 +10,7 @@
   "properties": {
     "inPanel": false,
     "hasLocale": false,
-    "hasStyle": false,
+    "hasStyle": true,
     "hasConfig": false,
     "hasUIFile": false,
     "hasSettingPage": false,

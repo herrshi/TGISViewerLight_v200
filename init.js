@@ -47,6 +47,9 @@ var dojoConfig, jimuConfig;
       //leaflet标准库
       window.path + "libs/leaflet/leaflet.css",
       window.path + "libs/leaflet/leaflet.js",
+      //leaflet plugins
+      window.path + "libs/leaflet/Control.MiniMap.css",
+      window.path + "libs/leaflet/Control.MiniMap.js",
       //dojo
       window.path + "libs/dojo/dojo/dojo.js"
     ];

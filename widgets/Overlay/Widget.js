@@ -257,7 +257,9 @@ define([
       }, this);
 
       //ie7需要刷新一下地图才会显示Polyline
-      this._refreshMap();
+      if (L.Browser.ielt9){
+        this._refreshMap();
+      }
     },
 
     onTopicHandler_deleteLines: function(params) {

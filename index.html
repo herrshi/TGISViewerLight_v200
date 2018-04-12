@@ -5,7 +5,7 @@
   <meta content="width=device-width, initial-scale=1" name="viewport"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TGISViewer-Light</title>
-  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <style>
     body, html {
       width: 100%;
@@ -69,13 +69,15 @@
     // map.startDraw('{"type":"line","showMeasure":true}');
     // map.hidePoints('{"types":["police"]}');
     // map.findFeature('{"id":"pt001"}');
-    map.showOD('{"type":"O","startPoint":{"x":103.8535,"y":36.0342},"endFlows":[{"endPoint":{"x":103.8431,"y":36.053},"flow":100},{"endPoint":{"x":103.8541,"y":36.05},"flow":150}]}\n');
+    map.addOD('{"type":"O","startPoint":{"x":103.8535,"y":36.0342},"endFlows":[{"endPoint":{"x":103.8431,"y":36.053},"flow":100},{"endPoint":{"x":103.8541,"y":36.05},"flow":150}]}\n');
 
   }
   
   function Test2ClickHandler() {
     // map.stopDraw();
-    map.showPoints('{"types":["police"]}');
+    // map.showPoints('{"types":["police"]}');
+    map.addOD('{"type":"D","startPoint":{"x":103.8535,"y":36.0342},"endFlows":[{"endPoint":{"x":103.8431,"y":36.053},"flow":100},{"endPoint":{"x":103.8541,"y":36.05},"flow":150}]}\n');
+    // map.deleteOD();
   }
   
   function Test3ClickHandler() {

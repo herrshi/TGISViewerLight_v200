@@ -27,43 +27,95 @@ define([
 
       this._odLayer = L.layerGroup().addTo(this.map);
 
-      topic.subscribe("showOD", lang.hitch(this, this.onTopicHandler_showOD));
+      topic.subscribe("addOD", lang.hitch(this, this.onTopicHandler_addOD));
+      topic.subscribe(
+        "deleteOD",
+        lang.hitch(this, this.onTopicHandler_deleteOD)
+      );
     },
 
-    onTopicHandler_showOD: function (params) {
+    _clearData: function() {
+      this._odLayer.clearLayers();
+    },
+
+    onTopicHandler_addOD: function(params) {
       var paramsObj = JSON.parse(params);
       var type = paramsObj.type;
 
+      this._clearData();
+
       //加入起点
       if (!isNaN(paramsObj.startPoint.x) && !isNaN(paramsObj.startPoint.y)) {
-        var startPoint = L.marker([paramsObj.startPoint.y, paramsObj.startPoint.x], {
-          icon: type.toLowerCase() === "o" ? this._oIcon : this._dIcon
-        });
+        var startPoint = L.marker(
+          [paramsObj.startPoint.y, paramsObj.startPoint.x],
+          {
+            icon: type.toLowerCase() === "o" ? this._oIcon : this._dIcon
+          }
+        );
         startPoint.addTo(this._odLayer);
 
         //加入终点
         var totalFlow = 0;
-        array.forEach(paramsObj.endFlows, function (endObj) {
-          if (!isNaN(endObj.endPoint.x) && !isNaN(endObj.endPoint.y)) {
-            totalFlow += endObj.flow;
-            var endPoint = L.marker([endObj.endPoint.y, endObj.endPoint.x], {
-              icon: type.toLowerCase() === "o" ? this._dIcon : this._oIcon
-            });
-            endPoint.addTo(this._odLayer);
-            endPoint.bindPopup((type.toLowerCase() === "o" ? "迄" : "起") + ": " + Math.round(endObj.flow), {
+        array.forEach(
+          paramsObj.endFlows,
+          function(endObj) {
+            if (!isNaN(endObj.endPoint.x) && !isNaN(endObj.endPoint.y)) {
+              totalFlow += endObj.flow;
+              var endPoint = L.marker([endObj.endPoint.y, endObj.endPoint.x], {
+                icon: type.toLowerCase() === "o" ? this._dIcon : this._oIcon
+              });
+              endPoint.addTo(this._odLayer);
+              endPoint
+                .bindPopup(
+                  (type.toLowerCase() === "o" ? "迄" : "起") +
+                    ": " +
+                    Math.round(endObj.flow),
+                  {
+                    autoClose: false,
+                    className: "custom-popup",
+                    closeButton: false
+                  }
+                )
+                .openPopup();
+
+              //起点和终点连线
+              var path =
+                type.toLowerCase() === "o"
+                  ? [startPoint.getLatLng(), endPoint.getLatLng()]
+                  : [endPoint.getLatLng(), startPoint.getLatLng()];
+              var line = L.polyline(path, {
+                color: type.toLowerCase() === "o" ? "#000099" : "#cc3300"
+              }).addTo(this._odLayer);
+              if (L.Browser.ielt9) {
+                this._refreshMap();
+              }
+            }
+          },
+          this
+        );
+
+        //起点加入总流量
+        startPoint
+          .bindPopup(
+            (type.toLowerCase() === "o" ? "起" : "迄") +
+              ": " +
+              Math.round(totalFlow),
+            {
               autoClose: false,
               className: "custom-popup",
               closeButton: false
-            }).openPopup();
-          }
-        }, this);
-
-        startPoint.bindPopup((type.toLowerCase() === "o" ? "起" : "迄") + ": " + Math.round(totalFlow), {
-          autoClose: false,
-          className: "custom-popup",
-          closeButton: false
-        }).openPopup();
+            }
+          )
+          .openPopup();
       }
+    },
+
+    onTopicHandler_deleteOD: function() {
+      this._clearData();
+    },
+
+    _refreshMap: function() {
+      this.map.panTo(this.map.getCenter());
     }
   });
 });

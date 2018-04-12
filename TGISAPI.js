@@ -235,9 +235,16 @@ var TMap = {
    *     y: number, required.
    *     flow: number, required. O分析时为D点流量, D分析时为O点流量
    * */
-  showOD: function (params) {
+  addOD: function (params) {
     require(["dojo/topic"], function(topic) {
-      topic.publish("showOD", params);
+      topic.publish("addOD", params);
+    });
+  },
+
+  /**清除OD数据*/
+  deleteOD: function () {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("deleteOD");
     });
   }
   /************************ Utils END **************************/

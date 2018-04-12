@@ -160,7 +160,9 @@ define([
           if (this._pointList.length === 2) {
             //两个点时创建线对象
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
-            this._refreshMap();
+            if (L.Browser.ielt9){
+              this._refreshMap();
+            }
           } else if (this._pointList.length > 2) {
             //超过两个点时往线对象里加点
             this._currentPolyline.addLatLng(point);
@@ -183,7 +185,9 @@ define([
             this._tooltipDiv.innerHTML = this.config.tooltip.finishDraw;
             //两个点时连线
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
-            this._refreshMap();
+            if (L.Browser.ielt9){
+              this._refreshMap();
+            }
           } else if (this._pointList.length === 3) {
             this._tooltipDiv.innerHTML = this.config.tooltip.finishDraw;
             //三个点时先删除前两个点的连线, 再创建面对象
