@@ -19,6 +19,9 @@ define([
       this._searchCallback = params.callback;
 
       var userDraw = !!paramsObj.userDraw;
+      if (userDraw) {
+        topic.publish("startDraw", '{"type":"polygon"}');
+      }
     }
   });
 });

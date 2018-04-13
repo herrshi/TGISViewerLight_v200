@@ -4,6 +4,7 @@ define([
   "dojo/dom-class",
   "dojo/dom-attr",
   "dojo/dom-construct",
+  "dojo/NodeList-dom",
   "dojo/query",
   "dojo/topic",
   "dojo/on",
@@ -14,6 +15,7 @@ define([
   domClass,
   domAttr,
   domConstruct,
+  domNodeList,
   query,
   topic,
   on,
@@ -29,6 +31,9 @@ define([
       this.inherited(arguments);
 
       this._createButtons();
+
+      topic.subscribe("showBottomToolbar", lang.hitch(this, this.onTopicHandler_showBottomToolbar));
+      topic.subscribe("hideBottomToolbar", lang.hitch(this, this.onTopicHandler_hideBottomToolbar));
     },
 
     _createButtons: function() {
@@ -107,6 +112,14 @@ define([
           })
         );
       }
+    },
+
+    onTopicHandler_showBottomToolbar: function () {
+      query("." + this.baseClass).style("display", "block");
+    },
+
+    onTopicHandler_hideBottomToolbar: function () {
+      query("." + this.baseClass).style("display", "none");
     }
   });
 });

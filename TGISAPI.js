@@ -206,6 +206,36 @@ var TMap = {
   },
   /************************ Overlay END **************************/
 
+  /************************ UI BEGIN **************************/
+  /**显示顶部工具栏*/
+  showTopToolbar: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showTopToolbar");
+    });
+  },
+
+  /**隐藏顶部工具栏*/
+  hideTopToolbar: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideTopToolbar");
+    });
+  },
+
+  /**显示底部工具栏*/
+  showBottomToolbar: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("showBottomToolbar");
+    });
+  },
+
+  /**隐藏底部工具栏*/
+  hideBottomToolbar: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("hideBottomToolbar");
+    });
+  },
+  /************************ UI END **************************/
+
   /************************ Search BEGIN **************************/
   /**
    * 根据id查找要素
@@ -221,11 +251,11 @@ var TMap = {
   /**
    * 图形搜索
    * @param params: string, json字符串
-   *   geoType: string, optional.
-   *     图形类型, 默认为polygon
    *   userDraw: boolean, required.
    *     true: 用户绘制图形
    *     false: 参数传入图形
+   *   geoType: string, optional.
+   *     图形类型, 默认为polygon
    *   geometry: object. optional
    *   onlyVisible: boolean, optional.
    *     是否只搜索可见要素. 默认为true

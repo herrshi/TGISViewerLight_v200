@@ -29,6 +29,10 @@
       "id": "BasicDrawWidget"
     },
     {
+      "uri": "widgets/GeometrySearch/Widget",
+      "id": "GeometrySearchWidget"
+    },
+    {
       "uri": "widgets/Coordinate/Widget",
       "id": "CoordinateWidget",
       "position": {

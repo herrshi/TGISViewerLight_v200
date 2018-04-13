@@ -72,7 +72,7 @@ define([
                     Math.round(endObj.flow),
                   {
                     autoClose: false,
-                    className: "custom-popup",
+                    className: "od-popup",
                     closeButton: false
                   }
                 )
@@ -102,7 +102,7 @@ define([
               Math.round(totalFlow),
             {
               autoClose: false,
-              className: "custom-popup",
+              className: "od-popup",
               closeButton: false
             }
           )
