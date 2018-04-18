@@ -5,8 +5,9 @@ define([
   "dojo/_base/fx",
   "dojo/topic",
   "dojo/dom-style",
-  "jimu/BaseWidget"
-], function(declare, lang, array, fx, topic, domStyle, BaseWidget) {
+  "jimu/BaseWidget",
+  "jimu/utils"
+], function(declare, lang, array, fx, topic, domStyle, BaseWidget, jimuUtils) {
   return declare([BaseWidget], {
     _markerLayer: null,
     _polylineLayer: null,
@@ -183,6 +184,10 @@ define([
       paramsObj.points.forEach(function(pointObj) {
         var geometry = pointObj.geometry;
         if (!isNaN(geometry.x) && !isNaN(geometry.y)) {
+          //转换坐标系
+          var newXY = jimuUtils.coordTransform(geometry.x, geometry.y);
+          geometry.x = newXY[0];
+          geometry.y = newXY[1];
           var icon = this._getIcon(pointObj.symbol) || defaultIcon;
           var marker;
           if (icon !== null) {
@@ -247,7 +252,8 @@ define([
         //leaflet使用[纬度, 经度], 需要交换一下
         var leafletPaths = array.map(paths, function(path) {
           return array.map(path, function(coords) {
-            return [coords[1], coords[0]];
+            var newXY = jimuUtils.coordTransform(coords[0], coords[1]);
+            return [newXY[1], newXY[0]];
           });
         });
         var line = L.polyline(leafletPaths, symbol);

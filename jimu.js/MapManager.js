@@ -60,6 +60,10 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
             }
           }).addTo(map);
           break;
+
+        case "csv":
+
+          break;
       }
     }
   });

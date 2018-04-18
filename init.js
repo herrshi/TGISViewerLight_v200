@@ -44,12 +44,14 @@ var dojoConfig, jimuConfig;
     resources = [
       //ie7/8没有JSON
       window.path + "libs/json3.min.js",
+      window.path + "libs/coordTransform.js",
       //leaflet标准库
       window.path + "libs/leaflet/leaflet.css",
       window.path + "libs/leaflet/leaflet.js",
       //leaflet plugins
       window.path + "libs/leaflet/Control.MiniMap.css",
       window.path + "libs/leaflet/Control.MiniMap.js",
+      window.path + "libs/leaflet/leaflet.geocsv.js",
       //dojo
       window.path + "libs/dojo/dojo/dojo.js"
     ];

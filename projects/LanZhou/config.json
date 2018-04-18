@@ -10,10 +10,10 @@
       }
     ],
     "mapOptions": {
-      "drawControl": true,
       "center": [36.046, 103.862],
       "zoom": 13
-    }
+    },
+    "coordinateSystem": "GCJ02"
   },
   "widgets": [
     {
