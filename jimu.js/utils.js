@@ -5,8 +5,9 @@ define([
   "dojo/_base/config",
   "dojo/on",
   "dojo/number",
-  "dojo/Deferred"
-], function(lang, html, array, config, on, dojoNumber, Deferred) {
+  "dojo/Deferred",
+  "jimu/ConfigManager"
+], function(lang, html, array, config, on, dojoNumber, Deferred, ConfigManager) {
   var mo = {};
 
   var widgetProperties = [
@@ -571,6 +572,19 @@ define([
       }
 
       return inside;
+    };
+
+    mo.coordTransform = function (x, y) {
+      var mapCoordSystem = ConfigManager.getInstance().appConfig.map.coordinateSystem;
+      var result = [x, y];
+
+      switch (mapCoordSystem) {
+        case "GCJ02":
+          result = coordtransform.wgs84togcj02(x, y);
+          break;
+      }
+
+      return result;
     };
 
     return ret;

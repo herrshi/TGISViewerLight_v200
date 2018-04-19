@@ -3,8 +3,9 @@ define([
   "dojo/_base/lang",
   "dojo/_base/array",
   "dojo/topic",
-  "jimu/BaseWidget"
-], function(declare, lang, array, topic, BaseWidget) {
+  "jimu/BaseWidget",
+  "jimu/utils"
+], function(declare, lang, array, topic, BaseWidget, jimuUtils) {
   return declare([BaseWidget], {
     _odLayer: null,
 
@@ -46,12 +47,13 @@ define([
 
       //加入起点
       if (!isNaN(paramsObj.startPoint.x) && !isNaN(paramsObj.startPoint.y)) {
-        var startPoint = L.marker(
-          [paramsObj.startPoint.y, paramsObj.startPoint.x],
-          {
-            icon: type.toLowerCase() === "o" ? this._oIcon : this._dIcon
-          }
+        var newXY = jimuUtils.coordTransform(
+          paramsObj.startPoint.x,
+          paramsObj.startPoint.y
         );
+        var startPoint = L.marker([newXY[1], newXY[0]], {
+          icon: type.toLowerCase() === "o" ? this._oIcon : this._dIcon
+        });
         startPoint.addTo(this._odLayer);
 
         //加入终点
@@ -61,7 +63,11 @@ define([
           function(endObj) {
             if (!isNaN(endObj.endPoint.x) && !isNaN(endObj.endPoint.y)) {
               totalFlow += endObj.flow;
-              var endPoint = L.marker([endObj.endPoint.y, endObj.endPoint.x], {
+              var endPointNewXY = jimuUtils.coordTransform(
+                endObj.endPoint.x,
+                endObj.endPoint.y
+              );
+              var endPoint = L.marker([endPointNewXY[1], endPointNewXY[0]], {
                 icon: type.toLowerCase() === "o" ? this._dIcon : this._oIcon
               });
               endPoint.addTo(this._odLayer);
