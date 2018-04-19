@@ -294,6 +294,34 @@ var TMap = {
     require(["dojo/topic"], function(topic) {
       topic.publish("deleteOD");
     });
+  },
+
+  /**
+   * 开始轨迹回放
+   * @param params: string, required.
+   *   trackPoints: [object], required. 轨迹点列表.
+   *     id: string, required. 轨迹点id.
+   *     x: number, required. x坐标.
+   *     y: number, required. y坐标.
+   *     isHighlight: boolean, optional. 是否需要高亮显示此轨迹点.
+   *     fields: object, optional. 业务属性. 点击以后会在弹出框中显示
+   *   autoStart: boolean, optional. 是否在添加数据以后自动开始回放. 默认为true.
+   *   loop: boolean, optional. 是否循环播放. 默认为true.
+   *   showTrackPoints: boolean, optional. 是否显示轨迹点. 默认为true.
+   * @sample
+   *   {"trackPoints":[{"x": 104.023, "y": 30.577, "isHighlight": true, "fields": {"经过时间": "2017/11/24 08:00:00","编号":"","位置描述":"","路口路段":"","辖区名称":"","车牌号":""}}, {"x": 104.002, "y": 30.565, "fields":{"经过时间": "2017/11/24 08:00:05"}}, {"x": 103.969, "y": 30.56, "fields":{"经过时间": "2017/11/24 08:00:10"}}, {"x": 103.907, "y": 30.536, "fields":{"经过时间": "2017/11/24 08:00:15"}}], "autoStart": true, "loop": true, "showTrackPoints": true}
+   * */
+  startTrackPlayback: function (params) {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("startTrackPlayback", params);
+    });
+  },
+
+  /**停止轨迹回放, 并清除轨迹*/
+  stopTrackPlayback: function () {
+    require(["dojo/topic"], function (topic) {
+      topic.publish("stopTrackPlayback");
+    });
   }
   /************************ Utils END **************************/
 };
