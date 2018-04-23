@@ -3,20 +3,9 @@ define([
   "dojo/_base/lang",
   "dojo/_base/array",
   "dojo/topic",
-<<<<<<< HEAD
-  "jimu/BaseWidget"
-], function (
-  declare,
-  lang,
-  array,
-  topic,
-  BaseWidget
-) {
-=======
   "jimu/BaseWidget",
   "jimu/utils"
 ], function(declare, lang, array, topic, BaseWidget, jimuUtils) {
->>>>>>> origin/master
   return declare([BaseWidget], {
     _trackPointIcon: null,
     _startPointIcon: null,
@@ -47,12 +36,6 @@ define([
         iconSize: [26, 42],
         iconAnchor: [13, 42]
       });
-
-<<<<<<< HEAD
-      topic.subscribe("startTrackPlayback", lang.hitch(this, this.onTopicHandler_startTrackPlayback));
-      topic.subscribe("stopTrackPlayback", lang.hitch(this, this.onTopicHandler_stopTrackPlayback));
-
-=======
       topic.subscribe(
         "startTrackPlayback",
         lang.hitch(this, this.onTopicHandler_startTrackPlayback)
@@ -61,7 +44,6 @@ define([
         "stopTrackPlayback",
         lang.hitch(this, this.onTopicHandler_stopTrackPlayback)
       );
->>>>>>> origin/master
     },
 
     _clearData: function() {
@@ -69,11 +51,6 @@ define([
     },
 
     /**检查轨迹点数据, 去掉重复数据*/
-<<<<<<< HEAD
-    _checkTrackPoints: function (trackPoints) {
-      for (var i = 1; i < trackPoints.length; i++) {
-        if (trackPoints[i-1].x === trackPoints[i].x && trackPoints[i-1].y === trackPoints[i].y) {
-=======
     _checkTrackPoints: function(trackPoints) {
       //转换坐标
       array.map(trackPoints, function(trackPoint) {
@@ -85,7 +62,6 @@ define([
           trackPoints[i - 1].x === trackPoints[i].x &&
           trackPoints[i - 1].y === trackPoints[i].y
         ) {
->>>>>>> origin/master
           trackPoints.splice(i, 1);
           i--;
         }
@@ -93,11 +69,7 @@ define([
       return trackPoints;
     },
 
-<<<<<<< HEAD
-    onTopicHandler_startTrackPlayback: function (params) {
-=======
     onTopicHandler_startTrackPlayback: function(params) {
->>>>>>> origin/master
       this._clearData();
 
       var paramsObj = JSON.parse(params);
@@ -108,13 +80,6 @@ define([
       this._trackPoints = this._checkTrackPoints(paramsObj.trackPoints);
 
       //显示起点和终点
-<<<<<<< HEAD
-      var startMarker = L.marker([this._trackPoints[0].y, this._trackPoints[0].x], {icon: this._startPointIcon});
-      startMarker.bindPopup("经过时间: " + this._trackPoints[0].time);
-      startMarker.addTo(this._trackLayer);
-      var endMarker = L.marker([this._trackPoints[this._trackPoints.length - 1].y, this._trackPoints[this._trackPoints.length - 1].x], {icon: this._endPointIcon});
-      endMarker.bindPopup("经过时间: " + this._trackPoints[this._trackPoints.length - 1].time);
-=======
       var startMarker = L.marker(
         [this._trackPoints[0].y, this._trackPoints[0].x],
         { icon: this._startPointIcon }
@@ -131,44 +96,26 @@ define([
       endMarker.bindPopup(
         "经过时间: " + this._trackPoints[this._trackPoints.length - 1].time
       );
->>>>>>> origin/master
       endMarker.addTo(this._trackLayer);
 
       //显示轨迹点
       if (showTrackPoints && this._trackPoints.length > 2) {
         for (var i = 1; i < this._trackPoints.length - 1; i++) {
-<<<<<<< HEAD
-          var marker = L.marker([this._trackPoints[i].y, this._trackPoints[i].x], {icon: this._trackPointIcon});
-=======
           var marker = L.marker(
             [this._trackPoints[i].y, this._trackPoints[i].x],
             { icon: this._trackPointIcon }
           );
->>>>>>> origin/master
           marker.bindPopup("经过时间: " + this._trackPoints[i].time);
           marker.addTo(this._trackLayer);
         }
       }
 
       //显示轨迹线
-<<<<<<< HEAD
-      var path = array.map(this._trackPoints, function (trackPoint) {
-=======
       var path = array.map(this._trackPoints, function(trackPoint) {
->>>>>>> origin/master
         return [trackPoint.y, trackPoint.x];
       });
       var line = L.polyline(path);
       line.addTo(this._trackLayer);
-<<<<<<< HEAD
-    },
-
-    onTopicHandler_stopTrackPlayback: function () {
-      this._clearData();
-    }
-  });
-});
-=======
 
       //ie7需要刷新一下地图才会显示Polyline
       if (L.Browser.ielt9){
@@ -185,4 +132,3 @@ define([
     }
   });
 });
->>>>>>> origin/master
