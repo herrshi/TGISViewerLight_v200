@@ -59,6 +59,9 @@
     // map.addPoints('{"defaultSymbol":{"url":"images/RedSphere.png","xoffset":32,"yoffset":32},"points":[{"id":"pt001","type":"police","geometry":{"x":103.8535,"y":36.0342},"symbol":{"url":"images/BlueSphere.png","xoffset":32,"yoffset":32},"fields":{"姓名":"张三","状态":"在岗"}},{"id":"pt002","type":"police","geometry":{"x":103.8431,"y":36.053},"content":"<b>金昌北路-南滨河路</b><select><option value='+"111"+'>南滨河路-静宁路(北) 北向南.南滨河路-静宁路(东) 东向西</option></select>"},{"id":"pt003","type":"police","geometry":{"x":103.8541,"y":36.05}}]}');
     // map.addLines('{"defaultSymbol":{"color":"#ff0000"},"lines":[{"id":"wx001","type":"GPS","geometry":{"paths":[[[103.8535,36.0342],[103.8431,36.053],[103.8541,36.05]]]},"symbol":{"alpha":0.5, "width":5}}]}');
     // map.hideBottomToolbar();
+    map.startDraw('{"type":"point","showMeasure":false}', function (result) {
+      console.log(result);
+    });
   });
 
   function Test1ClickHandler() {
@@ -67,12 +70,14 @@
     // map.deletePoints('{"ids":["pt001"]}');
     // map.deleteLines('{"ids":["wx001"]}')
     // map.deleteAllLines();
-    // map.startDraw('{"type":"line","showMeasure":true}');
+    map.startDraw('{"type":"point","showMeasure":false}', function (result) {
+      console.log(result);
+    });
     // map.hidePoints('{"types":["police"]}');
     // map.findFeature('{"id":"pt001"}');
     // map.addOD('{"type":"O","startPoint":{"x":103.8535,"y":36.0342},"endFlows":[{"endPoint":{"x":103.8431,"y":36.053},"flow":100},{"endPoint":{"x":103.8541,"y":36.05},"flow":150}]}\n');
     // map.geometrySearch('{"userDraw":true,"geoType":"polygon"}');
-    map.startTrackPlayback('{"trackPoints":[{"x":103.8535,"y":36.0342,"time":""},{"x":103.8431,"y":36.053,"time":""},{"x":103.8541,"y":36.05,"time":""}]}');
+    // map.startTrackPlayback('{"trackPoints":[{"x":103.8535,"y":36.0342,"time":""},{"x":103.8431,"y":36.053,"time":""},{"x":103.8541,"y":36.05,"time":""}]}');
   }
   
   function Test2ClickHandler() {

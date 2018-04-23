@@ -37,6 +37,8 @@ define([
 
     _vectorIcon: null,
 
+    _callbackFunction: null,
+
     postCreate: function() {
       this.inherited(arguments);
 
@@ -63,9 +65,10 @@ define([
     },
 
     onStartDraw: function(params) {
-      var paramsObj = JSON.parse(params);
+      var paramsObj = JSON.parse(params.params);
       this._drawType = paramsObj.type;
       this._showMeasure = !!paramsObj.showMeasure;
+      this._callbackFunction = params.callback;
       //禁用双击放大, 将双击事件留给停止绘制
       this.map.doubleClickZoom.disable();
       this._pointList = [];
@@ -114,6 +117,9 @@ define([
         case "point":
           var marker = L.marker(point);
           marker.addTo(this._drawLayer);
+          if (this._callbackFunction) {
+            this._callbackFunction({x: point.lng, y: point.lat});
+          }
           break;
 
         //线

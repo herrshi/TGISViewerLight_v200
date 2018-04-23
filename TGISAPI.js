@@ -184,10 +184,11 @@ var TMap = {
    * @param params: string, json字符串
    *   type: string, required. 绘制类型
    *     "point" || "line" || "polygon" || "circle" || "rectangle"
+   * @param callback: function, 回传坐标的回调函数
    * */
-  startDraw: function(params) {
+  startDraw: function(params, callback) {
     require(["dojo/topic"], function(topic) {
-      topic.publish("startDraw", params);
+      topic.publish("startDraw", {params: params, callback: callback});
     });
   },
 
