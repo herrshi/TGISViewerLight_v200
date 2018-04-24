@@ -62,6 +62,7 @@ define([
 
       topic.subscribe("startDraw", lang.hitch(this, this.onStartDraw));
       topic.subscribe("stopDraw", lang.hitch(this, this.onStopDraw));
+      topic.subscribe("clearDraw", lang.hitch(this, this.onClearDraw));
     },
 
     onStartDraw: function(params) {
@@ -102,6 +103,10 @@ define([
       );
       //隐藏tooltip
       domStyle.set(this._tooltipDiv, "display", "none");
+    },
+
+    onClearDraw: function() {
+      this._drawLayer.clearLayers();
     },
 
     onMapClick: function(event) {
