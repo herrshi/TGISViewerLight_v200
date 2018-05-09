@@ -259,11 +259,21 @@ var TMap = {
    *     图形类型, 默认为polygon
    *   geometry: object. optional
    *   onlyVisible: boolean, optional.
-   *     是否只搜索可见要素. 默认为true
+   *     是否只搜索可见要素.
+   *   types: [string], optional.
+   *     要搜索的要素类型. []代表所有要素类型.
+   *     onlyVisible=true时, 忽略此参数.
+   * @param callback: function
    * */
   geometrySearch: function(params, callback) {
     require(["dojo/topic"], function(topic) {
       topic.publish("geometrySearch", { params: params, callback: callback });
+    });
+  },
+
+  stopGeometrySearch: function() {
+    require(["dojo/topic"], function(topic) {
+      topic.publish("stopGeometrySearch");
     });
   },
   /************************ Search END **************************/
