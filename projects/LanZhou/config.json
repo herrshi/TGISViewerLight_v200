@@ -12,12 +12,53 @@
     "mapOptions": {
       "center": [36.046, 103.862],
       "zoom": 13
-    }
+    },
+    "coordinateSystem": "GCJ02"
   },
   "widgets": [
     {
       "uri": "widgets/Overlay/Widget",
       "id": "OverlayWidget"
+    },
+    {
+      "uri": "widgets/OD/Widget",
+      "id": "ODWidget"
+    },
+    {
+      "uri": "widgets/BasicDraw/Widget",
+      "id": "BasicDrawWidget"
+    },
+    {
+      "uri": "widgets/GeometrySearch/Widget",
+      "id": "GeometrySearchWidget"
+    },
+    {
+      "uri": "widgets/Coordinate/Widget",
+      "id": "CoordinateWidget",
+      "position": {
+        "left": 15,
+        "bottom": 5,
+        "relativeTo": "map",
+        "zIndex": 600
+      }
+    },
+    {
+      "uri": "widgets/BottomToolbar/Widget",
+      "name": "BottomToolbar",
+      "config": "configs/BottomToolbar/config_LanZhou.json",
+      "position": {
+        "bottom": 10,
+        "width": "100%",
+        "left": 0,
+        "right": 0,
+        "relativeTo": "map",
+        "zIndex": 500
+      },
+      "id": "BottomToolbarWidget"
+    },
+    {
+      "uri": "widgets/TrackPlayback/Widget",
+      "id": "TrackPlaybackWidget"
     }
   ]
 }

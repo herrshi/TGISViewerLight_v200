@@ -1,13 +1,10 @@
-define([
-  "dojo/_base/declare",
-  "dojo/_base/lang",
-  "dojo/topic"
-], function (
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
   declare,
   lang,
   topic
 ) {
-  var instance = null, clazz;
+  var instance = null,
+    clazz;
 
   clazz = declare(null, {
     appConfig: null,
@@ -19,22 +16,24 @@ define([
       this.mapDivId = mapDivId;
       this.id = mapDivId;
     },
-    
-    showMap: function () {
+
+    showMap: function() {
       console.time("Load Map");
 
       var map = L.map(this.mapDivId, this.appConfig.map.mapOptions);
 
-      this.appConfig.map.basemaps.forEach(lang.hitch(this, function (layerConfig) {
-        this._createMap(map, layerConfig);
-      }));
+      this.appConfig.map.basemaps.forEach(
+        lang.hitch(this, function(layerConfig) {
+          this._createMap(map, layerConfig);
+        })
+      );
 
       console.timeEnd("Load Map");
       this.map = map;
       topic.publish("mapLoaded", this.map);
     },
 
-    _createMap: function (map, layerConfig) {
+    _createMap: function(map, layerConfig) {
       var keyProperties = ["label", "url", "type"];
       var options = [];
       for (var p in layerConfig) {
@@ -45,11 +44,25 @@ define([
         }
       }
 
-      switch (layerConfig.type){
+      switch (layerConfig.type) {
         case "tile":
           var layer = L.tileLayer(layerConfig.url, options);
           layer.label = layerConfig.label;
           layer.addTo(map);
+
+          var miniMapLayer = L.tileLayer(layerConfig.url);
+          var miniMap = new L.Control.MiniMap(miniMapLayer, {
+            toggleDisplay: true,
+            zoomLevelOffset: -4,
+            strings: {
+              hideText: "隐藏鹰眼图",
+              showText: "显示鹰眼图"
+            }
+          }).addTo(map);
+          break;
+
+        case "csv":
+
           break;
       }
     }

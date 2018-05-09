@@ -99,6 +99,9 @@ define([
         lang.hitch(this, function() {
           console.timeEnd("Load widgetOnScreen");
           topic.publish("preloadWidgetsLoaded");
+          if (window.loadFinishCallback) {
+            window.loadFinishCallback();
+          }
         })
       );
     },
@@ -106,13 +109,21 @@ define([
     _loadPreloadWidget: function(widgetConfig) {
       var def = new Deferred();
 
-      if(!widgetConfig.uri){
+      if (!widgetConfig.uri) {
         //in run mode, when no uri, do nothing
         def.resolve(null);
         return def;
       }
 
-      this.widgetManager.loadWidget(widgetConfig);
+      this.widgetManager.loadWidget(widgetConfig).then(
+        lang.hitch(this, function(widget) {
+          widget.setPosition(widget.position);
+          def.resolve(widget);
+        }),
+        function(error) {
+          def.reject(error);
+        }
+      );
 
       return def;
     }

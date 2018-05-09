@@ -35,6 +35,7 @@
 
     for (var i = 0; i < resources.length; i++) {
       loadResource(resources[i], onOneBeginLoad, _onOneAfterLoad);
+      // setTimeout(loadResource, 500, resources[i], onOneBeginLoad, _onOneAfterLoad);
     }
 
     function checkHaveLoaded(url) {
@@ -90,7 +91,7 @@
         appendTo: "head"
       });
 
-      //for the browser which doesn"t fire load event
+      //for the browser which doesn't fire load event
       //safari update documents.stylesheets when style is loaded.
       var ti = setInterval(function() {
         var styles = document.styleSheets;
@@ -113,7 +114,7 @@
     }
 
     function loadJs(url) {
-      var result = createElement({
+      return createElement({
         element: "script",
         type: "text/javascript",
         onload: function() {
@@ -125,7 +126,6 @@
         src: url,
         appendTo: "body"
       });
-      return result;
     }
 
     function elementLoaded(url) {
