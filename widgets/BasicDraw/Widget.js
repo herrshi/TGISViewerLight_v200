@@ -337,6 +337,11 @@ define([
             }
           }
           break;
+
+        //圆形
+        case "circle":
+
+          break;
       }
     },
 
