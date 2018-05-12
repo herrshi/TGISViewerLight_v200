@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="65b6e716-25c0-4a62-ba18-042d76497ed9" name="TGISViewerLight" url="http://localhost:8090/TGISViewerLight_v200">
+        <fileTransfer port="0" mountedRoot="C:\Code\apache-tomcat-8.5.24\webapps\TGISViewerLight_v200" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
