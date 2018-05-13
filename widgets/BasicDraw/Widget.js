@@ -35,9 +35,17 @@ define([
 
     _currentPolyline: null,
     _currentPolygon: null,
+
+    //鼠标移动时绘制的辅助图形
     _tempPolyline: null,
     _tempPolygon: null,
     _tempRectangle: null,
+    _tempCircle: null,
+
+    //绘制矩形
+    _rectangleBounds: [],
+    //绘制圆形
+    _circleCenter: null,
 
     _vectorIcon: null,
 
@@ -85,8 +93,8 @@ define([
         "crosshair"
       );
 
-      if (this._drawType === "rectangle") {
-        //矩形使用拖拽方式绘制, 禁止地图拖拽移动
+      if (this._drawType === "rectangle" || this._drawType === "circle") {
+        //矩形和圆形使用拖拽方式绘制, 禁止地图拖拽移动
         this.map.dragging.disable();
         this._tooltipDiv.innerHTML = this.config.tooltip.rectangleStartDraw;
         this.map.on("mousedown", lang.hitch(this, this.onMapMouseDown));
@@ -340,7 +348,15 @@ define([
 
         //圆形
         case "circle":
-
+          if (this._circleCenter) {
+            //计算半径
+            var radius = this._circleCenter.distanceTo(point);
+            if (!this._tempCircle) {
+              this._tempCircle = L.circle(this._circleCenter, {radius: radius}).addTo(this._drawLayer);
+            } else {
+              this._tempCircle.setRadius(radius);
+            }
+          }
           break;
       }
     },
@@ -367,23 +383,30 @@ define([
       }
     },
 
-    _rectangleBounds: [],
 
     onMapMouseDown: function(event) {
-      if (this._drawType === "rectangle") {
-        this._rectangleBounds[0] = event.latlng;
+      switch (this._drawType.toLowerCase()) {
+        case "rectangle":
+          this._rectangleBounds[0] = event.latlng;
+          break;
+
+        case "circle":
+          this._circleCenter = event.latlng;
+          break;
       }
     },
 
     onMapMouseUp: function(event) {
-      if (this._drawType === "rectangle") {
-        if (this._callbackFunction) {
-          this._callbackFunction(this._tempRectangle);
-        }
-        this._rectangleBounds = [];
-        if (!this._continuousDraw) {
-          this.onStopDraw();
-        }
+      switch (this._drawType.toLowerCase()) {
+        case "rectangle":
+          if (this._callbackFunction) {
+            this._callbackFunction(this._tempRectangle);
+          }
+          this._rectangleBounds = [];
+          if (!this._continuousDraw) {
+            this.onStopDraw();
+          }
+          break;
       }
     },
 
