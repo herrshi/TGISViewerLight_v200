@@ -9,14 +9,14 @@ define([
   "jimu/utils"
 ], function(declare, lang, array, fx, topic, domStyle, BaseWidget, jimuUtils) {
   return declare([BaseWidget], {
-    _markerLayer: null,
+    _pointLayer: null,
     _polylineLayer: null,
     _polygonLayer: null,
 
     postCreate: function() {
       this.inherited(arguments);
 
-      this._markerLayer = L.layerGroup().addTo(this.map);
+      this._pointLayer = L.layerGroup().addTo(this.map);
       this._polylineLayer = L.layerGroup().addTo(this.map);
       this._polygonLayer = L.layerGroup().addTo(this.map);
 
@@ -39,6 +39,10 @@ define([
       topic.subscribe(
         "hidePoints",
         lang.hitch(this, this.onTopicHandler_hidePoints)
+      );
+      topic.subscribe(
+        "getPoints",
+        lang.hitch(this, this.onTopicHandler_getPoints)
       );
 
       topic.subscribe(
@@ -206,7 +210,7 @@ define([
           }
           marker.id = pointObj.id;
           marker.type = pointObj.type;
-          marker.addTo(this._markerLayer);
+          marker.addTo(this._pointLayer);
         }
       }, this);
     },
@@ -216,7 +220,7 @@ define([
       var types = paramsObj.types || [];
       var ids = paramsObj.ids || [];
 
-      this._deleteOverlay(this._markerLayer, types, ids);
+      this._deleteOverlay(this._pointLayer, types, ids);
     },
 
     onTopicHandler_showPoints: function(params) {
@@ -224,7 +228,7 @@ define([
       var types = paramsObj.types || [];
       var ids = paramsObj.ids || [];
 
-      this._setOpacity(this._markerLayer, types, ids, 1.0);
+      this._setOpacity(this._pointLayer, types, ids, 1.0);
     },
 
     onTopicHandler_hidePoints: function(params) {
@@ -232,11 +236,35 @@ define([
       var types = paramsObj.types || [];
       var ids = paramsObj.ids || [];
 
-      this._setOpacity(this._markerLayer, types, ids, 0.0);
+      this._setOpacity(this._pointLayer, types, ids, 0.0);
+    },
+
+    onTopicHandler_getPoints: function(params) {
+      var onlyVisible = params.params.onlyVisible;
+      var types = params.params.types || [];
+      var callback = params.callback;
+
+      var results = [];
+      this._pointLayer.eachLayer(function(point) {
+        if (onlyVisible) {
+          if (
+            (L.Browser.ielt9 &&
+              domStyle.get(point._icon, "display") === "block") ||
+            (!L.Browser.ielt9 && domStyle.get(point._icon, "opacity") === "1")
+          ) {
+            results.push(point);
+          }
+        } else if (types.length === 0 || types.indexOf(point.type) >= 0) {
+          results.push(point);
+        }
+      });
+      if (callback) {
+        callback(results);
+      }
     },
 
     onTopicHandler_deleteAllPoints: function() {
-      this._markerLayer.clearLayers();
+      this._pointLayer.clearLayers();
     },
 
     onTopicHandler_addLines: function(params) {
@@ -263,7 +291,7 @@ define([
       }, this);
 
       //ie7需要刷新一下地图才会显示Polyline
-      if (L.Browser.ielt9){
+      if (L.Browser.ielt9) {
         this._refreshMap();
       }
     },

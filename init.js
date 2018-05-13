@@ -51,7 +51,6 @@ var dojoConfig, jimuConfig;
       //leaflet plugins
       window.path + "libs/leaflet/Control.MiniMap.css",
       window.path + "libs/leaflet/Control.MiniMap.js",
-      window.path + "libs/leaflet/leaflet.geocsv.js",
       //dojo
       window.path + "libs/dojo/dojo/dojo.js"
     ];

@@ -28,12 +28,16 @@ define([
     _pointList: [],
     _defaultCursor: "auto",
 
+    //连续绘制, 画完一个以后不结束绘制状态
+    _continuousDraw: false,
+
     _tooltipDiv: null,
 
     _currentPolyline: null,
     _currentPolygon: null,
     _tempPolyline: null,
     _tempPolygon: null,
+    _tempRectangle: null,
 
     _vectorIcon: null,
 
@@ -69,6 +73,7 @@ define([
       var paramsObj = JSON.parse(params.params);
       this._drawType = paramsObj.type;
       this._showMeasure = !!paramsObj.showMeasure;
+      this._continuousDraw = !!paramsObj.continuousDraw;
       this._callbackFunction = params.callback;
       //禁用双击放大, 将双击事件留给停止绘制
       this.map.doubleClickZoom.disable();
@@ -80,21 +85,34 @@ define([
         "crosshair"
       );
 
-      this._tooltipDiv.innerHTML = this.config.tooltip.startDraw;
-
-      this.map.on("click", lang.hitch(this, this.onMapClick));
+      if (this._drawType === "rectangle") {
+        //矩形使用拖拽方式绘制, 禁止地图拖拽移动
+        this.map.dragging.disable();
+        this._tooltipDiv.innerHTML = this.config.tooltip.rectangleStartDraw;
+        this.map.on("mousedown", lang.hitch(this, this.onMapMouseDown));
+        this.map.on("mouseup", lang.hitch(this, this.onMapMouseUp));
+      } else {
+        this._tooltipDiv.innerHTML = this.config.tooltip.startDraw;
+        this.map.on("click", lang.hitch(this, this.onMapClick));
+        this.map.on("dblclick", lang.hitch(this, this.onMapDoubleClick));
+      }
       this.map.on("mousemove", lang.hitch(this, this.onMapMouseMove));
-      this.map.on("dblclick", lang.hitch(this, this.onMapDoubleClick));
     },
 
     onStopDraw: function() {
       this.map.doubleClickZoom.enable();
+      this.map.dragging.enable();
       this.map.off("click");
       this.map.off("mousemove");
       this.map.off("dblclick");
+      this.map.off("mousedown");
+      this.map.off("mouseup");
       this._pointList = [];
       this._tempPolyline = null;
       this._currentPolyline = null;
+      this._tempPolygon = null;
+      this._currentPolygon = null;
+      this._tempRectangle = null;
       //改变鼠标指针
       domStyle.set(
         document.getElementById(jimuConfig.mapId),
@@ -123,7 +141,7 @@ define([
           var marker = L.marker(point);
           marker.addTo(this._drawLayer);
           if (this._callbackFunction) {
-            this._callbackFunction({x: point.lng, y: point.lat});
+            this._callbackFunction({ x: point.lng, y: point.lat });
           }
           break;
 
@@ -171,7 +189,7 @@ define([
           if (this._pointList.length === 2) {
             //两个点时创建线对象
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
-            if (L.Browser.ielt9){
+            if (L.Browser.ielt9) {
               this._refreshMap();
             }
           } else if (this._pointList.length > 2) {
@@ -196,7 +214,7 @@ define([
             this._tooltipDiv.innerHTML = this.config.tooltip.finishDraw;
             //两个点时连线
             this._currentPolyline = L.polyline(latlngs).addTo(this._drawLayer);
-            if (L.Browser.ielt9){
+            if (L.Browser.ielt9) {
               this._refreshMap();
             }
           } else if (this._pointList.length === 3) {
@@ -305,15 +323,68 @@ define([
             }
           }
           break;
+
+        //矩形
+        case "rectangle":
+          if (this._rectangleBounds.length >= 1) {
+            this._rectangleBounds[1] = point;
+            if (!this._tempRectangle) {
+              this._tempRectangle = L.rectangle(this._rectangleBounds).addTo(
+                this._drawLayer
+              );
+            } else {
+              this._tempRectangle.setBounds(this._rectangleBounds);
+            }
+          }
+          break;
+
+        //圆形
+        case "circle":
+
+          break;
       }
     },
 
     onMapDoubleClick: function(event) {
+      if (this._callbackFunction) {
+        switch (this._drawType.toLowerCase()) {
+          case "line":
+            this._callbackFunction(this._currentPolyline);
+            break;
+
+          case "polygon":
+            this._callbackFunction(this._currentPolygon);
+            break;
+        }
+      }
       this._pointList = [];
       this._tempPolyline = null;
       this._currentPolyline = null;
       this._currentPolygon = null;
       this._tooltipDiv.innerHTML = this.config.tooltip.startDraw;
+      if (!this._continuousDraw) {
+        this.onStopDraw();
+      }
+    },
+
+    _rectangleBounds: [],
+
+    onMapMouseDown: function(event) {
+      if (this._drawType === "rectangle") {
+        this._rectangleBounds[0] = event.latlng;
+      }
+    },
+
+    onMapMouseUp: function(event) {
+      if (this._drawType === "rectangle") {
+        if (this._callbackFunction) {
+          this._callbackFunction(this._tempRectangle);
+        }
+        this._rectangleBounds = [];
+        if (!this._continuousDraw) {
+          this.onStopDraw();
+        }
+      }
     },
 
     _refreshMap: function() {
