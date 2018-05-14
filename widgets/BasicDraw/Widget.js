@@ -121,6 +121,7 @@ define([
       this._tempPolygon = null;
       this._currentPolygon = null;
       this._tempRectangle = null;
+      this._tempCircle = null;
       //改变鼠标指针
       domStyle.set(
         document.getElementById(jimuConfig.mapId),
@@ -352,7 +353,9 @@ define([
             //计算半径
             var radius = this._circleCenter.distanceTo(point);
             if (!this._tempCircle) {
-              this._tempCircle = L.circle(this._circleCenter, {radius: radius}).addTo(this._drawLayer);
+              this._tempCircle = L.circle(this._circleCenter, {
+                radius: radius
+              }).addTo(this._drawLayer);
             } else {
               this._tempCircle.setRadius(radius);
             }
@@ -383,7 +386,6 @@ define([
       }
     },
 
-
     onMapMouseDown: function(event) {
       switch (this._drawType.toLowerCase()) {
         case "rectangle":
@@ -403,6 +405,16 @@ define([
             this._callbackFunction(this._tempRectangle);
           }
           this._rectangleBounds = [];
+          if (!this._continuousDraw) {
+            this.onStopDraw();
+          }
+          break;
+
+        case "circle":
+          if (this._callbackFunction) {
+            this._callbackFunction(this._tempCircle);
+          }
+          this._circleCenter = null;
           if (!this._continuousDraw) {
             this.onStopDraw();
           }
