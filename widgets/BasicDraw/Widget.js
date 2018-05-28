@@ -150,7 +150,8 @@ define([
           var marker = L.marker(point);
           marker.addTo(this._drawLayer);
           if (this._callbackFunction) {
-            this._callbackFunction({ x: point.lng, y: point.lat });
+            var newXY = jimuUtils.coordTransform(point.lng, point.lat, true);
+            this._callbackFunction({ x: newXY[0], y: newXY[1] });
           }
           break;
 
