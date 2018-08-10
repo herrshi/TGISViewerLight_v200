@@ -11,8 +11,12 @@ define([
     _onlyVisible: true,
     _types: [],
 
+    _drawLayer: null,
+
     postCreate: function() {
       this.inherited(arguments);
+
+      this._drawLayer = L.layerGroup().addTo(this.map);
 
       topic.subscribe(
         "geometrySearch",
@@ -37,6 +41,16 @@ define([
             '{"type":"' + paramsObj.geoType + '", "continuousDraw":false}',
           callback: lang.hitch(this, this._drawEndCallback)
         });
+      } else {
+        switch (paramsObj.geoType.toLowerCase()) {
+          case "circle":
+            var center = paramsObj.geometry.center;
+            center = jimuUtils.coordTransform(center.x, center.y);
+            var radius = paramsObj.geometry.radius;
+            var circle = L.circle([center[1], center[0]], {radius: radius}).addTo(this._drawLayer);
+            this._drawEndCallback(circle);
+            break;
+        }
       }
     },
 
