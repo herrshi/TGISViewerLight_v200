@@ -39,6 +39,16 @@
           "opName": "callPage"
         }
       ]
+    },
+    {
+      "label": "兴趣点搜索",
+      "id": "POISearch",
+      "image": "images/buttons/search-white.png",
+      "operations": [
+        {
+          "opName": "openWidget"
+        }
+      ]
     }
   ]
 }

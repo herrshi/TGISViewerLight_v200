@@ -108,6 +108,10 @@ define([
               case "callPage".toLowerCase():
                 onBottomDockClick(target.id, enable);
                 break;
+
+              case "openWidget".toLowerCase():
+
+                break;
             }
           })
         );

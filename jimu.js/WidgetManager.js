@@ -14,7 +14,10 @@ define([
   clazz = declare(null, {
     constructor: function() {
       topic.subscribe("mapLoaded", lang.hitch(this, this._onMapLoaded));
-      topic.subscribe("appConfigLoaded", lang.hitch(this, this._onAppConfigLoaded));
+      topic.subscribe(
+        "appConfigLoaded",
+        lang.hitch(this, this._onAppConfigLoaded)
+      );
     },
 
     _onAppConfigLoaded: function(_appConfig) {
@@ -41,18 +44,22 @@ define([
                 var widget = this._createWidget(setting, clazz, resources);
                 html.setAttr(widget.domNode, "data-widget-name", setting.name);
                 console.log("widget [" + setting.uri + "] created.");
-              }
-              catch (error) {
-                console.error("create [" + setting.uri + "] error:" + error.stack);
+              } catch (error) {
+                console.error(
+                  "create [" + setting.uri + "] error:" + error.stack
+                );
                 def.reject(error);
               }
 
               //use timeout to let the widget can get the correct dimension in startup function
-              setTimeout(lang.hitch(this, function() {
-                def.resolve(widget);
-                // this.emit("widget-created", widget);
-                topic.publish("widgetCreated", widget);
-              }), 50);
+              setTimeout(
+                lang.hitch(this, function() {
+                  def.resolve(widget);
+                  // this.emit("widget-created", widget);
+                  topic.publish("widgetCreated", widget);
+                }),
+                50
+              );
             }),
             function(error) {
               def.reject(error);
@@ -271,10 +278,7 @@ define([
       // var themeCommonStyleId =
       //   "theme_" + this.appConfig.theme.name + "_style_common";
       //insert widget style before theme style, to let theme style over widget style
-      return jimuUtils.loadStyleLink(
-        id,
-        window.path + widgetSetting.styleFile
-      );
+      return jimuUtils.loadStyleLink(id, window.path + widgetSetting.styleFile);
     },
 
     loadWidgetTemplate: function(widgetSetting) {
@@ -291,8 +295,8 @@ define([
     _replaceId: function(id) {
       return id.replace(/\//g, "_").replace(/\./g, "_");
     },
-    
-    _createWidget: function (setting, clazz, resources) {
+
+    _createWidget: function(setting, clazz, resources) {
       var widget;
 
       setting.rawConfig = setting.config;

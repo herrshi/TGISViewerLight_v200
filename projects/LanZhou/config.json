@@ -59,6 +59,17 @@
     {
       "uri": "widgets/TrackPlayback/Widget",
       "id": "TrackPlaybackWidget"
+    },
+    {
+      "uri": "widgets/POISearch/Widget",
+      "name": "POISearch",
+      "position": {
+        "left": 15,
+        "bottom": 300,
+        "relativeTo": "map",
+        "zIndex": 600
+      },
+      "id": "POISearchWidget"
     }
   ]
 }
