@@ -50,15 +50,15 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
           layer.label = layerConfig.label;
           layer.addTo(map);
 
-          var miniMapLayer = L.tileLayer(layerConfig.url);
-          var miniMap = new L.Control.MiniMap(miniMapLayer, {
-            toggleDisplay: true,
-            zoomLevelOffset: -4,
-            strings: {
-              hideText: "隐藏鹰眼图",
-              showText: "显示鹰眼图"
-            }
-          }).addTo(map);
+          // var miniMapLayer = L.tileLayer(layerConfig.url);
+          // var miniMap = new L.Control.MiniMap(miniMapLayer, {
+          //   toggleDisplay: true,
+          //   zoomLevelOffset: -4,
+          //   strings: {
+          //     hideText: "隐藏鹰眼图",
+          //     showText: "显示鹰眼图"
+          //   }
+          // }).addTo(map);
           break;
 
         case "csv":

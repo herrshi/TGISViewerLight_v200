@@ -63,9 +63,12 @@
     {
       "uri": "widgets/POISearch/Widget",
       "name": "POISearch",
+      "config": "configs/POISearch/config.json",
       "position": {
-        "left": 15,
-        "bottom": 300,
+        "left": 60,
+        "top": 15,
+        "width": 300,
+        "height": 300,
         "relativeTo": "map",
         "zIndex": 600
       },

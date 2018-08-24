@@ -46,7 +46,8 @@
       "image": "images/buttons/search-white.png",
       "operations": [
         {
-          "opName": "openWidget"
+          "opName": "openWidget",
+          "opParam": ["POISearchWidget"]
         }
       ]
     }
