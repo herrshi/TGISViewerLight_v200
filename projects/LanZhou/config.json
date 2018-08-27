@@ -1,9 +1,11 @@
 {
   "map": {
+    "gisServer": "114.215.146.210",
+    "key": "88afd0522fbbb939bc7f7f075a763487",
     "basemaps": [
       {
         "label": "MapABC",
-        "url": "http://114.215.146.210:25003/v3/tile?z={z}&x={x}&y={y}",
+        "url": "http://{gisServer}:25003/v3/tile?z={z}&x={x}&y={y}",
         "type": "tile",
         "maxZoom": 18,
         "minZoom": 4
@@ -63,14 +65,12 @@
     {
       "uri": "widgets/POISearch/Widget",
       "name": "POISearch",
-      "config": "configs/POISearch/config.json",
+      "config": "configs/POISearch/config_LanZhou.json",
       "position": {
         "left": 60,
         "top": 15,
-        "width": 300,
-        "height": 300,
         "relativeTo": "map",
-        "zIndex": 600
+        "zIndex": 0
       },
       "id": "POISearchWidget"
     }

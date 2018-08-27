@@ -46,7 +46,8 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
 
       switch (layerConfig.type) {
         case "tile":
-          var layer = L.tileLayer(layerConfig.url, options);
+          var url = layerConfig.url.replace(/{gisServer}/i, this.appConfig.map.gisServer);
+          var layer = L.tileLayer(url, options);
           layer.label = layerConfig.label;
           layer.addTo(map);
 
