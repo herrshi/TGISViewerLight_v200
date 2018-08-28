@@ -75,8 +75,9 @@ define([
                 '地址: ' + poiInfo.address + '<br>' +
                 '电话: ' + poiInfo.telephone + '<br>' +
                 '类型: ' + poiInfo.type;
-              var content =
-                '<tr style="cursor: pointer; margin: 30px 8px 20px 6px; border-bottom: 1px solid #C0C0C0;">' +
+              var poiItem =
+                '<tr style="cursor: pointer; margin: 30px 8px 20px 6px; border-bottom: 1px solid #C0C0C0;" ' +
+                'id="' + poiInfo.uid + '">' +
                   '<td style="width: 33px; height: 30px; vertical-align: top">' +
                     '<img src="images/red' + (i + 1) + '.png">' +
                   '</td>' +
@@ -86,7 +87,7 @@ define([
                     '<p>电话: ' + poiInfo.telephone + '</p>' +
                   '</td>' +
                 '</tr>';
-              $(content).appendTo("#tableResult");
+              $(poiItem).appendTo("#tableResult");
 
               //加点
               var x = poiInfo.location.lng;
@@ -98,10 +99,14 @@ define([
                   iconAnchor: [12, 35]
                 })
               });
+              marker.id = poiInfo.uid;
               marker.bindPopup(popup);
               marker.popup = marker.getPopup();
               marker.addTo(this._markerLayer);
             }
+
+            //点击事件
+
           }
         })
       });
