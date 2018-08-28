@@ -2,6 +2,7 @@
   "map": {
     "gisServer": "114.215.146.210",
     "key": "88afd0522fbbb939bc7f7f075a763487",
+    "tmp": "ec85d3648154874552835438ac6a02b2",
     "basemaps": [
       {
         "label": "MapABC",
