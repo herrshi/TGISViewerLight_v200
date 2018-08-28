@@ -2,6 +2,7 @@
   <dictionary name="herrs">
     <words>
       <w>dblclick</w>
+      <w>jsonp</w>
       <w>latlngs</w>
       <w>mousemove</w>
       <w>tgisapi</w>

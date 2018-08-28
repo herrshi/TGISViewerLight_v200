@@ -56,11 +56,11 @@ define([
       // url = url.replace(/{searchText}/i, searchText);
       // url = encodeURI(url);
       // console.log(url);
-      //用变量做url参数前面会带上http://localhost:8090, 不知如何解决
       $.ajax({
+        //用变量做url参数前面会带上http://localhost:8090, 不知如何解决
         url: "http://" + this.appConfig.map.gisServer + ":25001/as/search/poi?ak=" + this.appConfig.map.key + "&query=" + searchText + "&region=兰州&scope=2&page_size=9&page_num=1",
         type: "GET",
-        dataType: "jsonp", //指定服务器返回的数据类型
+        dataType: "jsonp", //使用jsonp避免跨域问题
         success: lang.hitch(this, function (result) {
           if (result.message === "ok") {
             $("#divResult").css("display", "block");
@@ -70,19 +70,21 @@ define([
             for (var i = 0; i < result.results.length; i++) {
               var poiInfo = result.results[i];
               var icon = "images/red" + (i + 1) + ".png";
-              var popup = '<b>' + poiInfo.name + '</b><br>' +
+              var popup =
+                '<b>' + poiInfo.name + '</b><br>' +
                 '地址: ' + poiInfo.address + '<br>' +
                 '电话: ' + poiInfo.telephone + '<br>' +
                 '类型: ' + poiInfo.type;
-              var content = '<tr style="cursor: pointer; margin: 30px 8px 20px 6px; border-bottom: 1px solid #C0C0C0;">' +
-                '<td style="width: 33px; height: 30px; vertical-align: top">' +
-                '<img src="images/red' + (i + 1) + '.png">' +
-                '</td>' +
-                '<td>' +
-                '<p>名称: ' + poiInfo.name + '</p>' +
-                '<p>地址: ' + poiInfo.address + '</p>' +
-                '<p>电话: ' + poiInfo.telephone + '</p>' +
-                '</td>' +
+              var content =
+                '<tr style="cursor: pointer; margin: 30px 8px 20px 6px; border-bottom: 1px solid #C0C0C0;">' +
+                  '<td style="width: 33px; height: 30px; vertical-align: top">' +
+                    '<img src="images/red' + (i + 1) + '.png">' +
+                  '</td>' +
+                  '<td>' +
+                    '<p>名称: ' + poiInfo.name + '</p>' +
+                    '<p>地址: ' + poiInfo.address + '</p>' +
+                    '<p>电话: ' + poiInfo.telephone + '</p>' +
+                  '</td>' +
                 '</tr>';
               $(content).appendTo("#tableResult");
 
