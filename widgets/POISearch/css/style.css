@@ -7,17 +7,17 @@
 /*-------重置==结束-------*/
 
 /*弹出框*/
-.popup_box {
+.jimu-widget-POISearch .popup_box {
   float: left;
 }
 
-.popup_head {
+.jimu-widget-POISearch .popup_head {
   overflow: hidden;
   background: #607da6;
   border-radius: 5px 5px 0 0;
 }
 
-.popup_head_title {
+.jimu-widget-POISearch .popup_head_title {
   float: left;
   text-indent: 13px;
   line-height: 40px;
@@ -26,7 +26,7 @@
   color: #fff;
 }
 
-.popup_head_title_small {
+.jimu-widget-POISearch .popup_head_title_small {
   float: left;
   text-indent: 17px;
   line-height: 35px;
@@ -35,12 +35,12 @@
   height: 35px;
 }
 
-.popup_close {
+.jimu-widget-POISearch .popup_close {
   float: right;
   margin: 15px 12px 0 0;
 }
 
-.popup_icon_down {
+.jimu-widget-POISearch .popup_icon_down {
   float: right;
   margin: 12px 12px 0 0;
   width: 15px;
@@ -50,11 +50,11 @@
   cursor: pointer
 }
 
-.popup_icon_down:hover {
+.jimu-widget-POISearch .popup_icon_down:hover {
   background: url(images/arrow_down_hover.png) no-repeat center center;
 }
 
-.popup_icon_up {
+.jimu-widget-POISearch .popup_icon_up {
   float: right;
   margin: 12px 12px 0 0;
   width: 15px;
@@ -64,19 +64,19 @@
   cursor: pointer
 }
 
-.popup_icon_up:hover {
+.jimu-widget-POISearch .popup_icon_up:hover {
   background: url(images/arrow_up_hover.png) no-repeat center center;
 }
 
-.popup_inner {
+.jimu-widget-POISearch .popup_inner {
   height: 50px;
   background: #dceefd;
   border: #a9d2fb solid 1px;
   border-top: none;
 }
 
-.popup_result {
-  height: 1000px;
+.jimu-widget-POISearch .popup_result {
+  height: 750px;
   display: none;
   background: #dceefd;
   border: #a9d2fb solid 1px;
@@ -85,14 +85,14 @@
 }
 
 /*表格样式*/
-.table_no {
+.jimu-widget-POISearch .table_no {
   margin: 0 10px 10px 10px;
   border: none;
   border-collapse: collapse;
   color: #777;
 }
 
-.table_no th {
+.jimu-widget-POISearch .table_no th {
   height: 30px;
   line-height: 30px;
   text-align: left;
@@ -101,50 +101,50 @@
   padding: 0 5px;
 }
 
-.table_no td {
+.jimu-widget-POISearch .table_no td {
   text-align: left;
   line-height: 18px;
   word-break: break-all;
   padding: 5px;
 }
 
-.table_no a {
+.jimu-widget-POISearch .table_no a {
   color: #777;
 }
 
-.table_no a:hover {
+.jimu-widget-POISearch .table_no a:hover {
   color: #0f68b4;
   text-decoration: underline;
 }
 
-.gis_rlist {
+.jimu-widget-POISearch .gis_rlist {
   color: #fff;
   background: none;
 }
 
-.gis_rlist li {
+.jimu-widget-POISearch .gis_rlist li {
   padding: 7px 18px;
   border-bottom: #7d9dca solid 1px
 }
 
-.gis_rlist li:hover {
+.jimu-widget-POISearch .gis_rlist li:hover {
   background: #527ebc
 }
 
-.gis_rlist li:last-child {
+.jimu-widget-POISearch .gis_rlist li:last-child {
   border: none
 }
 
-.popup_box .popup_inner02 {
+.jimu-widget-POISearch .popup_box .popup_inner02 {
   display: none; /*position: absolute;*/
 }
 
-.popup_box:hover .popup_inner02 {
+.jimu-widget-POISearch .popup_box:hover .popup_inner02 {
   display: block;
 }
 
 /*画笔工具按钮*/
-.btn_blue, .btn_blue:hover {
+.jimu-widget-POISearch .btn_blue, .btn_blue:hover {
   margin: 0 5px;
   width: 30px;
   height: 30px;
@@ -158,35 +158,35 @@
   cursor: pointer
 }
 
-.icon_draw01 {
+.jimu-widget-POISearch .icon_draw01 {
   background: #576e97 url(images/icon_draw01.png) no-repeat center center
 }
 
-.icon_draw02 {
+.jimu-widget-POISearch .icon_draw02 {
   background: #576e97 url(images/icon_draw02.png) no-repeat center center
 }
 
-.icon_draw03 {
+.jimu-widget-POISearch .icon_draw03 {
   background: #576e97 url(images/icon_draw03.png) no-repeat center center
 }
 
-.icon_draw04 {
+.jimu-widget-POISearch .icon_draw04 {
   background: #576e97 url(images/icon_draw04.png) no-repeat center center
 }
 
-.icon_draw05 {
+.jimu-widget-POISearch .icon_draw05 {
   background: #576e97 url(images/icon_draw05.png) no-repeat center center
 }
 
-.icon_draw06 {
+.jimu-widget-POISearch .icon_draw06 {
   background: #576e97 url(images/icon_draw06.png) no-repeat center center
 }
 
-.icon_draw07 {
+.jimu-widget-POISearch .icon_draw07 {
   background: #576e97 url(images/icon_draw07.png) no-repeat center center
 }
 
-.btn_blue:hover, .btn_click {
+.jimu-widget-POISearch .btn_blue:hover, .btn_click {
   width: 30px;
   height: 30px;
   line-height: 30px;
@@ -199,26 +199,26 @@
   border-radius: 5px;
 }
 
-.drawarea {
+.jimu-widget-POISearch .drawarea {
   clear: both;
   margin-top: 10px;
   border: #c3ddf3 solid 1px;
 }
 
-.drawarea_btn {
+.jimu-widget-POISearch .drawarea_btn {
   background: #d1e2f3;
   padding: 5px 10px 3px 0;
   text-align: right
 }
 
-.draw_box {
+.jimu-widget-POISearch .draw_box {
   clear: both;
   border-top: #c3ddf3 solid 1px;
   background: white;
   height: 100px;
 }
 
-.btn_blue100 {
+.jimu-widget-POISearch .btn_blue100 {
   border: none;
   color: #fff;
   font-size: 12px;
@@ -231,11 +231,11 @@
   font-weight: bold
 }
 
-.btn_blue100:hover {
+.jimu-widget-POISearch .btn_blue100:hover {
   background: url(images/btn_blue100_click.png) no-repeat;
 }
 
-.btn_centerbox {
+.jimu-widget-POISearch .btn_centerbox {
   text-align: center
 }
 

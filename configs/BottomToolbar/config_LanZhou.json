@@ -50,6 +50,17 @@
           "opParam": ["POISearchWidget"]
         }
       ]
+    },
+    {
+      "label": "路径规划",
+      "id": "Routing",
+      "image": "images/buttons/routing-white.png",
+      "operations": [
+        {
+          "opName": "openWidget",
+          "opParam": ["RoutingWidget"]
+        }
+      ]
     }
   ]
 }

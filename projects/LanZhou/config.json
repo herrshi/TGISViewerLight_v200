@@ -74,6 +74,17 @@
         "zIndex": 0
       },
       "id": "POISearchWidget"
+    },
+    {
+      "uri": "widgets/Routing/Widget",
+      "name": "Routing",
+      "position": {
+        "left": 60,
+        "top": 120,
+        "relativeTo": "map",
+        "zIndex": 0
+      },
+      "id": "RoutingWidget"
     }
   ]
 }

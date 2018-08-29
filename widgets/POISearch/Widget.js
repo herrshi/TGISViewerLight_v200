@@ -69,7 +69,7 @@ define([
 
             for (var i = 0; i < result.results.length; i++) {
               var poiInfo = result.results[i];
-              var icon = "images/red" + (i + 1) + ".png";
+              var icon = window.path + "images/red" + (i + 1) + ".png";
               var popup =
                 '<b>' + poiInfo.name + '</b><br>' +
                 '地址: ' + poiInfo.address + '<br>' +
@@ -92,8 +92,8 @@ define([
               //加点
               var x = poiInfo.location.lng;
               var y = poiInfo.location.lat;
-              var newXY = jimuUtils.coordTransform(x, y);
-              var marker = L.marker([newXY[1], newXY[0]], {
+              // var newXY = jimuUtils.coordTransform(x, y);
+              var marker = L.marker([y, x], {
                 icon: L.icon({
                   iconUrl: icon,
                   iconAnchor: [12, 35]
@@ -106,10 +106,23 @@ define([
             }
 
             //点击事件
-
+            $("#tableResult tr").click(lang.hitch(this, this._poiItemClick));
           }
         })
       });
+    },
+
+    _poiItemClick: function (event) {
+      var poiId = event.currentTarget.id;
+      this._markerLayer.eachLayer(lang.hitch(this, function (marker) {
+        if (marker.id === poiId) {
+          this.map.flyTo(marker.getLatLng(), 18);
+          marker.setZIndexOffset(1000);
+          marker.openPopup();
+        } else {
+          marker.setZIndexOffset(100);
+        }
+      }));
     }
   });
 });
