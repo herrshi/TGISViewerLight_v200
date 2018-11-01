@@ -1,7 +1,7 @@
-define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "MapManager.js/../../libs/leaflet/leaflet"], function(
   declare,
   lang,
-  topic
+  topic, L
 ) {
   var instance = null,
     clazz;
@@ -62,6 +62,11 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
           break;
 
         case "csv":
+
+          break;
+
+        case "BD_vec":
+          map.options.crs = L.CRS.Baidu;
 
           break;
       }

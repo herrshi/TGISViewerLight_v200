@@ -1,0 +1,17 @@
+{
+  "map": {
+    "basemaps": [
+      {
+        "label": "百度矢量地图",
+        "type": "BD_vec"
+      }
+    ],
+    "mapOptions": {
+      "center": [22.532934684, 114.0547117002],
+      "zoom": 13
+    }
+  },
+  "widgets": [
+
+  ]
+}

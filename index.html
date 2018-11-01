@@ -6,6 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>TGISViewer-Light</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!--<link rel="stylesheet" href="libs/leaflet/leaflet.css">-->
+  <!--<link rel="stylesheet" href="libs/leaflet/Control.MiniMap.css">-->
+
+
+
   <style>
     body, html {
       width: 100%;
@@ -50,6 +55,18 @@
   <button type="button" onclick="Test3ClickHandler()">Test3</button>
 </div>
 
+<!--<script src="libs/json3.min.js"></script>-->
+<!--<script src="libs/coordTransform.js"></script>-->
+
+<!--<script src="libs/leaflet/leaflet.js"></script>-->
+
+<!--<script src="libs/leaflet/Control.MiniMap.js"></script>-->
+
+<!--<script src="libs/leaflet/Proj4Leaflet/lib/proj4.js"></script>-->
+<!--<script src="libs/leaflet/Proj4Leaflet/src/proj4leaflet.js"></script>-->
+
+<!--<script src="libs/dojo/dojo/dojo.js"></script>-->
+
 <script src="simpleLoader.js"></script>
 <script src="TGISAPI.js"></script>
 <script>
@@ -82,16 +99,16 @@
     });
     // map.startTrackPlayback('{"trackPoints":[{"x":103.8535,"y":36.0342,"time":"2018-04-11 11:38:45"},{"x":103.8431,"y":36.053,"time":"2018-04-11 11:38:45"},{"x":103.8541,"y":36.05,"time":"2018-04-11 11:38:45"}]}');
   }
-  
+
   function Test2ClickHandler() {
     // map.stopDraw();
     map.hidePoints('{"types":["police"]}');
     // map.addOD('{"type":"D","startPoint":{"x":103.8535,"y":36.0342},"endFlows":[{"endPoint":{"x":103.8431,"y":36.053},"flow":100},{"endPoint":{"x":103.8541,"y":36.05},"flow":150}]}\n');
     // map.deleteOD();
   }
-  
+
   function Test3ClickHandler() {
-    
+
   }
 
   function onBottomDockClick(id, state) {
