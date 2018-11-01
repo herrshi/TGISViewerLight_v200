@@ -3,7 +3,7 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="752cb07a-f5cb-429b-9b07-9d72313854df" name="TGISViewerLigth" url="http://localhost:8090/TGISViewerLight_v200">
-        <fileTransfer port="0" mountedRoot="D:\apache-tomcat-8.5.14\webapps\TGISViewerLight_v200" accessType="MOUNT" />
+        <fileTransfer port="0" mountedRoot="D:\Workspace\apache-tomcat-8.5.15\webapps\TGISViewerLight_v200" accessType="MOUNT" />
       </webServer>
     </option>
   </component>
