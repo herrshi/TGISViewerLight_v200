@@ -51,10 +51,7 @@ var dojoConfig, jimuConfig;
       //leaflet plugins
       window.path + "libs/leaflet/Control.MiniMap.css",
       window.path + "libs/leaflet/Control.MiniMap.js",
-      //projForLeaflet
-      // window.path + "libs/leaflet/Proj4Leaflet/lib/proj4.js",
-      // window.path + "libs/leaflet/Proj4Leaflet/src/proj4leaflet.js",
-      // dojo
+      //dojo
       window.path + "libs/dojo/dojo/dojo.js"
     ];
 
@@ -64,8 +61,6 @@ var dojoConfig, jimuConfig;
       layoutId: "jimu-layout-manager",
       mapId: "map"
     };
-
-    console.log(dojoConfig);
 
     loadResources(
       resources,
@@ -92,9 +87,5 @@ var dojoConfig, jimuConfig;
         });
       }
     );
-
-    // require(["jimu/main"], function(jimuMain) {
-    //   jimuMain.initApp();
-    // });
   }
 })();
