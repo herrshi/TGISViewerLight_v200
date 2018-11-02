@@ -1,7 +1,7 @@
-define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "MapManager.js/../../libs/leaflet/leaflet"], function(
+define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic"], function(
   declare,
   lang,
-  topic, L
+  topic
 ) {
   var instance = null,
     clazz;
@@ -10,17 +10,25 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "MapManager.js/..
     appConfig: null,
     mapDivId: "",
     map: null,
+    layerList: [],
 
     constructor: function(options, mapDivId) {
       this.appConfig = options.appConfig;
       this.mapDivId = mapDivId;
       this.id = mapDivId;
+
+      topic.subscribe("setLayerVisibility", lang.hitch(this, this._onTopicHandler_setLayerVisibility));
     },
 
     showMap: function() {
       console.time("Load Map");
 
-      var map = L.map(this.mapDivId, this.appConfig.map.mapOptions);
+      var mapOptions = this.appConfig.map.mapOptions;
+      //百度坐标系
+      if (this.appConfig.map.coordinateSystem === "BD09") {
+        mapOptions = lang.mixin(mapOptions, { crs: L.CRS.Baidu });
+      }
+      var map = L.map(this.mapDivId, mapOptions);
 
       this.appConfig.map.basemaps.forEach(
         lang.hitch(this, function(layerConfig) {
@@ -44,33 +52,116 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "MapManager.js/..
         }
       }
 
+      var layer;
+      var miniMapLayer;
       switch (layerConfig.type) {
         case "tile":
-          var url = layerConfig.url.replace(/{gisServer}/i, this.appConfig.map.gisServer);
-          var layer = L.tileLayer(url, options);
-          layer.label = layerConfig.label;
-          layer.addTo(map);
+          var url = layerConfig.url.replace(
+            /{gisServer}/i,
+            this.appConfig.map.gisServer
+          );
+          layer = L.tileLayer(url, options);
 
-          // var miniMapLayer = L.tileLayer(layerConfig.url);
-          // var miniMap = new L.Control.MiniMap(miniMapLayer, {
-          //   toggleDisplay: true,
-          //   zoomLevelOffset: -4,
-          //   strings: {
-          //     hideText: "隐藏鹰眼图",
-          //     showText: "显示鹰眼图"
-          //   }
-          // }).addTo(map);
+          if (layerConfig.label === this.appConfig.map.miniMap.layer) {
+            miniMapLayer = L.tileLayer(url, options);
+          }
           break;
 
         case "csv":
-
           break;
 
         case "BD_vec":
-          map.options.crs = L.CRS.Baidu;
+          layer = L.tileLayer.baidu({
+            url: layerConfig.url,
+            layer: "vec",
+            bigFont: layerConfig.bigFont
+          });
 
+          if (this.appConfig.map.miniMap.show && layerConfig.label === this.appConfig.map.miniMap.layer) {
+            miniMapLayer = L.tileLayer.baidu({
+              url: layerConfig.url,
+              layer: "vec",
+              bigFont: layerConfig.bigFont
+            });
+          }
+          break;
+
+        case "BD_img":
+          layer = L.tileLayer.baidu({
+            url: layerConfig.url,
+            layer: "img_d"
+          });
+
+          if (layerConfig.label === this.appConfig.map.miniMap.layer) {
+            miniMapLayer = L.tileLayer.baidu({
+              url: layerConfig.url,
+              layer: "img_d"
+            });
+          }
+          break;
+
+        case "BD_ano":
+          layer = L.tileLayer.baidu({
+            url: layerConfig.url,
+            layer: "img_z",
+            bigFont: layerConfig.bigFont
+          });
+          break;
+
+        case "BD_custom":
+          layer = L.tileLayer.baidu({
+            url: layerConfig.url,
+            layer: "custom",
+            customid: layerConfig.style
+          });
+
+          if (layerConfig.label === this.appConfig.map.miniMap.layer) {
+            miniMapLayer = L.tileLayer.baidu({
+              url: layerConfig.url,
+              layer: "custom",
+              customid: layerConfig.style
+            });
+          }
+          break;
+
+        case "BD_time":
+          layer = L.tileLayer.baidu({
+            url: layerConfig.url,
+            layer: "time"
+          });
           break;
       }
+      layer.label = layerConfig.label;
+
+      this.layerList.push(layer);
+      if (layerConfig.visible) {
+        layer.addTo(map);
+      }
+
+      if (miniMapLayer) {
+        var miniMap = new L.Control.MiniMap(miniMapLayer, {
+          toggleDisplay: true,
+          zoomLevelOffset: -4,
+          minimized: true,
+          zoomAnimation: true,
+          strings: {
+            hideText: "隐藏鹰眼图",
+            showText: "显示鹰眼图"
+          }
+        }).addTo(map);
+      }
+    },
+
+    _onTopicHandler_setLayerVisibility: function (params) {
+      this.layerList.forEach(function (layer) {
+        if (layer.label === params.label) {
+          if (params.visible && !this.map.hasLayer(layer)) {
+            this.map.addLayer(layer);
+          } else if (!params.visible && this.map.hasLayer(layer)) {
+            this.map.removeLayer(layer);
+          }
+        }
+      }, this);
     }
   });
 

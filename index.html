@@ -53,12 +53,18 @@
   <button type="button" onclick="Test3ClickHandler()">Test3</button>
 </div>
 
+<!--<script src="libs/leaflet/leaflet.js"></script>-->
+<!--<script src="libs/leaflet/Control.MiniMap.js"></script>-->
+<!--<script src="libs/leaflet/Proj4Leaflet/lib/proj4.js"></script>-->
+<!--<script src="libs/leaflet/Proj4Leaflet/src/proj4leaflet.js"></script>-->
+<!--<script src="jimu.js/CustomLayers/tileLayer.baidu.js"></script>-->
+
 <script src="simpleLoader.js"></script>
 <script src="TGISAPI.js"></script>
 <script>
   var map = TMap.createNew({
     viewerUrl: "http://localhost:8090/TGISViewerLight_v200/",
-    config: "http://localhost:8090/TGISViewerLight_v200/projects/LanZhou/config.json"
+    config: "http://localhost:8090/TGISViewerLight_v200/projects/WuXiMaShan/config.json"
   }, "mapContainer", function () {
     map.addPoints('{"defaultSymbol":{"url":"images/RedSphere.png","xoffset":32,"yoffset":32},"points":[{"id":"pt001","type":"police","geometry":{"x":103.8535,"y":36.0342},"symbol":{"url":"images/BlueSphere.png","xoffset":32,"yoffset":32},"fields":{"姓名":"张三","状态":"在岗"}},{"id":"pt002","type":"police","geometry":{"x":103.8431,"y":36.053},"content":"<b>金昌北路-南滨河路</b><select><option value='+"111"+'>南滨河路-静宁路(北) 北向南.南滨河路-静宁路(东) 东向西</option></select>"},{"id":"pt003","type":"police","geometry":{"x":103.8541,"y":36.05}}]}');
     // map.addLines('{"defaultSymbol":{"color":"#ff0000"},"lines":[{"id":"wx001","type":"GPS","geometry":{"paths":[[[103.8535,36.0342],[103.8431,36.053],[103.8541,36.05]]]},"symbol":{"alpha":0.5, "width":5}}]}');

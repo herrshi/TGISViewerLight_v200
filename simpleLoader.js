@@ -30,13 +30,15 @@
         if (onAfterLoad) {
           onAfterLoad();
         }
+      } else {
+        loadResource(resources[loaded.length], onOneBeginLoad, _onOneAfterLoad)
       }
     }
 
-    for (var i = 0; i < resources.length; i++) {
-      loadResource(resources[i], onOneBeginLoad, _onOneAfterLoad);
-      // setTimeout(loadResource, 500, resources[i], onOneBeginLoad, _onOneAfterLoad);
-    }
+    // for (var i = 0; i < resources.length; i++) {
+    //   loadResource(resources[i], onOneBeginLoad, _onOneAfterLoad);
+    // }
+    loadResource(resources[0], onOneBeginLoad, _onOneAfterLoad);
 
     function checkHaveLoaded(url) {
       for (var i = 0; i < loaded.length; i++) {

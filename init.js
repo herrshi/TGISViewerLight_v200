@@ -51,6 +51,10 @@ var dojoConfig, jimuConfig;
       //leaflet plugins
       window.path + "libs/leaflet/Control.MiniMap.css",
       window.path + "libs/leaflet/Control.MiniMap.js",
+      //Baidu for leaflet
+      window.path + "libs/leaflet/Proj4Leaflet/lib/proj4.js",
+      window.path + "libs/leaflet/Proj4Leaflet/src/proj4leaflet.js",
+      window.path + "jimu.js/CustomLayers/tileLayer.baidu.js",
       //dojo
       window.path + "libs/dojo/dojo/dojo.js"
     ];

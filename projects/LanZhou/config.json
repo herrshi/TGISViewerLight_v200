@@ -9,14 +9,18 @@
         "url": "http://{gisServer}:25003/v3/tile?z={z}&x={x}&y={y}",
         "type": "tile",
         "maxZoom": 18,
-        "minZoom": 4
+        "minZoom": 4,
+        "visible": true
       }
     ],
     "mapOptions": {
       "center": [36.046, 103.862],
       "zoom": 13
     },
-    "coordinateSystem": "GCJ02"
+    "coordinateSystem": "GCJ02",
+    "miniMap": {
+      "layer": "MapABC"
+    }
   },
   "widgets": [
     {
