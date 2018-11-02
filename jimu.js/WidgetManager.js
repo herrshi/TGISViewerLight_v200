@@ -2,19 +2,26 @@ define([
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/_base/html",
+  "dojo/_base/array",
   "dojo/topic",
   "dojo/Deferred",
   "dojo/promise/all",
   "dojo/request/xhr",
   "jimu/utils"
-], function(declare, lang, html, topic, Deferred, all, xhr, jimuUtils) {
+], function(declare, lang, html, array, topic, Deferred, all, xhr, jimuUtils) {
   var instance = null,
     clazz;
 
   clazz = declare(null, {
     constructor: function() {
+      //the loaded widget list
+      this.loaded = [];
+
       topic.subscribe("mapLoaded", lang.hitch(this, this._onMapLoaded));
-      topic.subscribe("appConfigLoaded", lang.hitch(this, this._onAppConfigLoaded));
+      topic.subscribe(
+        "appConfigLoaded",
+        lang.hitch(this, this._onAppConfigLoaded)
+      );
     },
 
     _onAppConfigLoaded: function(_appConfig) {
@@ -41,18 +48,22 @@ define([
                 var widget = this._createWidget(setting, clazz, resources);
                 html.setAttr(widget.domNode, "data-widget-name", setting.name);
                 console.log("widget [" + setting.uri + "] created.");
-              }
-              catch (error) {
-                console.error("create [" + setting.uri + "] error:" + error.stack);
+              } catch (error) {
+                console.error(
+                  "create [" + setting.uri + "] error:" + error.stack
+                );
                 def.reject(error);
               }
 
               //use timeout to let the widget can get the correct dimension in startup function
-              setTimeout(lang.hitch(this, function() {
-                def.resolve(widget);
-                // this.emit("widget-created", widget);
-                topic.publish("widgetCreated", widget);
-              }), 50);
+              setTimeout(
+                lang.hitch(this, function() {
+                  def.resolve(widget);
+                  // this.emit("widget-created", widget);
+                  topic.publish("widgetCreated", widget);
+                }),
+                50
+              );
             }),
             function(error) {
               def.reject(error);
@@ -271,10 +282,7 @@ define([
       // var themeCommonStyleId =
       //   "theme_" + this.appConfig.theme.name + "_style_common";
       //insert widget style before theme style, to let theme style over widget style
-      return jimuUtils.loadStyleLink(
-        id,
-        window.path + widgetSetting.styleFile
-      );
+      return jimuUtils.loadStyleLink(id, window.path + widgetSetting.styleFile);
     },
 
     loadWidgetTemplate: function(widgetSetting) {
@@ -291,8 +299,8 @@ define([
     _replaceId: function(id) {
       return id.replace(/\//g, "_").replace(/\./g, "_");
     },
-    
-    _createWidget: function (setting, clazz, resources) {
+
+    _createWidget: function(setting, clazz, resources) {
       var widget;
 
       setting.rawConfig = setting.config;
@@ -322,7 +330,74 @@ define([
       widget = new clazz(setting2);
       widget.clazz = clazz;
 
+      this.loaded.push(widget);
       return widget;
+    },
+
+    _getWidgetById: function(id) {
+      var ret = null;
+      array.some(
+        this.loaded,
+        function(w) {
+          if (w.id === id) {
+            ret = w;
+            return true;
+          }
+        },
+        this
+      );
+      return ret;
+    },
+
+    openWidget: function(widget) {
+      if (typeof widget === "string") {
+        widget = this._getWidgetById(widget);
+        if (!widget) {
+          return;
+        }
+      }
+
+      if (!widget.started) {
+        try {
+          widget.started = true;
+          widget.startup();
+        } catch (error) {
+          console.error(
+            "Fail to startup widget " + widget.name + ". " + error.stack
+          );
+        }
+      }
+
+      if (widget.state === "closed") {
+        html.setStyle(widget.domNode, "display", "");
+        widget.setState("opened");
+        try {
+          widget.onOpen();
+        } catch (error) {
+          console.error(
+            "Fail to open widget " + widget.name + ". " + error.stack
+          );
+        }
+      }
+    },
+
+    closeWidget: function (widget) {
+      if (typeof widget === "string") {
+        widget = this._getWidgetById(widget);
+        if (!widget) {
+          return;
+        }
+      }
+
+      if (widget.state !== "closed") {
+        html.setStyle(widget.domNode, "display", "none");
+        widget.setState("closed");
+        try {
+          widget.onClose();
+        } catch (error) {
+          console.error("Fail to close widget " + widget.name + ". " + error.stack);
+        }
+      }
     }
   });
 

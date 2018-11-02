@@ -46,19 +46,20 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/topic", "MapManager.js/..
 
       switch (layerConfig.type) {
         case "tile":
-          var layer = L.tileLayer(layerConfig.url, options);
+          var url = layerConfig.url.replace(/{gisServer}/i, this.appConfig.map.gisServer);
+          var layer = L.tileLayer(url, options);
           layer.label = layerConfig.label;
           layer.addTo(map);
 
-          var miniMapLayer = L.tileLayer(layerConfig.url);
-          var miniMap = new L.Control.MiniMap(miniMapLayer, {
-            toggleDisplay: true,
-            zoomLevelOffset: -4,
-            strings: {
-              hideText: "隐藏鹰眼图",
-              showText: "显示鹰眼图"
-            }
-          }).addTo(map);
+          // var miniMapLayer = L.tileLayer(layerConfig.url);
+          // var miniMap = new L.Control.MiniMap(miniMapLayer, {
+          //   toggleDisplay: true,
+          //   zoomLevelOffset: -4,
+          //   strings: {
+          //     hideText: "隐藏鹰眼图",
+          //     showText: "显示鹰眼图"
+          //   }
+          // }).addTo(map);
           break;
 
         case "csv":

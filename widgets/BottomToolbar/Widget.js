@@ -108,6 +108,16 @@ define([
               case "callPage".toLowerCase():
                 onBottomDockClick(target.id, enable);
                 break;
+
+              case "openWidget".toLowerCase():
+                var widgetId = operation.opParam ? operation.opParam[0] : target.id;
+                if (enable) {
+                  topic.publish("openWidget", widgetId);
+                } else {
+                  topic.publish("closeWidget", widgetId);
+                }
+
+                break;
             }
           })
         );

@@ -22,19 +22,19 @@ ul,li { list-style:none;}
   -webkit-font-smoothing: antialiased;
   text-align: center;
   width: 70px;
-  height: 70px; 
+  height: 70px;
   line-height: 62px;
   font-size: 24px;
   border: 6px solid #eef1f5;
   color: #fff;
   transition: background, color 0.3s;
   border-radius: 70px !important;
-    font-size: 28px; 
-    text-decoration: none; 
+    font-size: 28px;
+    text-decoration: none;
 }
 .socicon-btn-box  ul li a:hover .socicon-btn-custom {
     transition: background, color 0.3s;
-    text-decoration: none; 
+    text-decoration: none;
 }
 .socicon-btn-box  a:hover  {  text-decoration: none;}
 
@@ -52,19 +52,19 @@ ul,li { list-style:none;}
   -webkit-font-smoothing: antialiased;
   text-align: center;
   width: 60px;
-  height: 60px; 
+  height: 60px;
   line-height: 60px;
   font-size: 22px;
   border: 1px solid #ddd;
   color: #999;
   transition: background, color 0.3s;
   border-radius: 60px !important;
-    text-decoration: none; 
+    text-decoration: none;
 	 background-color: #f9f9f9;
 }
 .socicon-btn-box  ul li a:hover .socicon-btn-solid {
     transition: background, color 0.3s;
-    text-decoration: none; 
+    text-decoration: none;
 }
 
 .socicon-btn-box  ul li a:hover .socicon-btn-solid.bg-hover-grey-salsa:hover {
@@ -436,7 +436,7 @@ font-weight: 600;
 .selected-gismenu .feeds-gis  li .col1 > .cont > .cont-col1 > .label > i ,.rselected-gismenu .feeds-gis  li .col1 > .cont > .cont-col1 > .label > i { padding:0 2px; font-family: 微软雅黑; color: #fff;}
 .show-timeline { cursor:pointer;}
 .page-sys-gis,.contrast-sys-rgis,.contrast-sys-lgis {  /*background: rgba(0, 0, 0, 0) url("../img/bg-grey-transparent.png") repeat scroll 0 0;*/
-	
+
     padding: 10px 10px 0;
     position: absolute;
     right: 320px;
@@ -483,7 +483,7 @@ font-weight: 600;
 .font-14 { font-size:14px;}
 
 .font-transform {
-                -moz-transform: rotate(-45deg);/* Firefox 旋转属性，参数表示角度(deg表示角度)，负数逆时针，正数顺时针 */                
+                -moz-transform: rotate(-45deg);/* Firefox 旋转属性，参数表示角度(deg表示角度)，负数逆时针，正数顺时针 */
                 -webkit-transform: rotate(-45deg);/* Safari和Chrome */
                 -ms-transform: rotate(-45deg);/* IE 9 */
                 -o-transform: rotate(-45deg);/* Opera */
@@ -914,7 +914,7 @@ font-weight: 600;
 .gis-menu-list .portlet.light > .portlet-title > .caption > .caption-subject { font-size:16px;}
 .portlet > .portlet-title > .actions {font-size:16px;}
 .accordion .panel-black .panel-title .accordion-toggle { font-size:16px;}
-.feeds-gis li { font-size:16px;} 
+.feeds-gis li { font-size:16px;}
 
 
 /*zhangping,2017-11-23*/
@@ -976,3 +976,4 @@ border-left: 8px solid transparent;}
 /*全选*/
 .tab-pane-allcheck { border-bottom:solid 1px #4b5771; margin-bottom:10px; padding-bottom:6px; /*box-shadow: 0 0 1px rgb(255,255,255,0.2)*/}
 .tab-pane-allcheck a{margin:0 15px 0 0; display:inline-block;min-width: 70px;}
+

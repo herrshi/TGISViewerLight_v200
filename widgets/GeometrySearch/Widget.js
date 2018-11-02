@@ -11,8 +11,12 @@ define([
     _onlyVisible: true,
     _types: [],
 
+    _drawLayer: null,
+
     postCreate: function() {
       this.inherited(arguments);
+
+      this._drawLayer = L.layerGroup().addTo(this.map);
 
       topic.subscribe(
         "geometrySearch",
@@ -37,11 +41,22 @@ define([
             '{"type":"' + paramsObj.geoType + '", "continuousDraw":false}',
           callback: lang.hitch(this, this._drawEndCallback)
         });
+      } else {
+        switch (paramsObj.geoType.toLowerCase()) {
+          case "circle":
+            var center = paramsObj.geometry.center;
+            center = jimuUtils.coordTransform(center.x, center.y);
+            var radius = paramsObj.geometry.radius;
+            var circle = L.circle([center[1], center[0]], {radius: radius}).addTo(this._drawLayer);
+            this._drawEndCallback(circle);
+            break;
+        }
       }
     },
 
     onTopicHandler_stopGeometrySearch: function() {
       topic.publish("clearDraw");
+      this._drawLayer.clearLayers();
     },
 
     _drawEndCallback: function(result) {
@@ -53,12 +68,23 @@ define([
         params: { onlyVisible: this._onlyVisible, types: this._types },
         callback: lang.hitch(this, function(points) {
           array.forEach(points, function(point) {
-            var inside = jimuUtils.geometryUtils.isMarkerInsidePolygon(
-              point,
-              searchScope
-            );
-            if (inside) {
-              searchResults.push({ type: point.type, id: point.id });
+            if (searchScope instanceof L.Polygon) {
+              //polygon用点-面关系判断
+              var inside = jimuUtils.geometryUtils.isMarkerInsidePolygon(
+                point,
+                searchScope
+              );
+              if (inside) {
+                searchResults.push({ type: point.type, id: point.id });
+              }
+            } else if (searchScope instanceof L.Circle) {
+              //圆形用点和圆心的距离判断
+              var circleCenter = searchScope.getLatLng();
+              var radius = searchScope.getRadius();
+              var distance = circleCenter.distanceTo(point.getLatLng());
+              if (distance <= radius) {
+                searchResults.push({ type: point.type, id: point.id });
+              }
             }
           });
 

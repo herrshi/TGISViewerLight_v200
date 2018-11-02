@@ -2,6 +2,7 @@ define([
   "dojo/_base/declare",
   "dojo/_base/lang",
   "dojo/_base/html",
+  "dojo/_base/array",
   "dojo/topic",
   "dojo/promise/all",
   "dojo/Deferred",
@@ -12,6 +13,7 @@ define([
   declare,
   lang,
   html,
+  array,
   topic,
   all,
   Deferred,
@@ -40,6 +42,8 @@ define([
       this.own(
         topic.subscribe("mapLoaded", lang.hitch(this, this.onMapLoaded))
       );
+      this.own(topic.subscribe("openWidget", lang.hitch(this, this._onOpenWidget)));
+      this.own(topic.subscribe("closeWidget", lang.hitch(this, this._onCloseWidget)));
     },
 
     postCreate: function() {
@@ -126,6 +130,14 @@ define([
       );
 
       return def;
+    },
+
+    _onOpenWidget: function (widgetId) {
+      this.widgetManager.openWidget(widgetId);
+    },
+
+    _onCloseWidget: function (widgetId) {
+      this.widgetManager.closeWidget(widgetId);
     }
   });
 

@@ -7,7 +7,16 @@ define([
   "dojo/number",
   "dojo/Deferred",
   "jimu/ConfigManager"
-], function(lang, html, array, config, on, dojoNumber, Deferred, ConfigManager) {
+], function(
+  lang,
+  html,
+  array,
+  config,
+  on,
+  dojoNumber,
+  Deferred,
+  ConfigManager
+) {
   var mo = {};
 
   var widgetProperties = [
@@ -566,7 +575,7 @@ define([
             yj = polyPoints[j].lng;
 
           var intersect =
-            (yi > y !== yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
+            yi > y !== yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi;
           if (intersect) inside = !inside;
         }
       }
@@ -574,13 +583,21 @@ define([
       return inside;
     };
 
-    mo.coordTransform = function (x, y) {
-      var mapCoordSystem = ConfigManager.getInstance().appConfig.map.coordinateSystem;
+    mo.coordTransform = function(x, y, inverse) {
+      if (inverse === undefined) {
+        inverse = false;
+      }
+      var mapCoordSystem = ConfigManager.getInstance().appConfig.map
+        .coordinateSystem;
       var result = [x, y];
 
       switch (mapCoordSystem) {
         case "GCJ02":
-          result = coordtransform.wgs84togcj02(x, y);
+          if (!inverse) {
+            result = coordtransform.wgs84togcj02(x, y);
+          } else {
+            result = coordtransform.gcj02towgs84(x, y);
+          }
           break;
       }
 
