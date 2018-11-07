@@ -31,6 +31,7 @@
           onAfterLoad();
         }
       } else {
+        //异步加载, 防止js有先后依赖
         loadResource(resources[loaded.length], onOneBeginLoad, _onOneAfterLoad)
       }
     }
@@ -38,6 +39,7 @@
     // for (var i = 0; i < resources.length; i++) {
     //   loadResource(resources[i], onOneBeginLoad, _onOneAfterLoad);
     // }
+    //异步加载, 防止js有先后依赖
     loadResource(resources[0], onOneBeginLoad, _onOneAfterLoad);
 
     function checkHaveLoaded(url) {

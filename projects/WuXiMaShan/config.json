@@ -30,6 +30,7 @@
         "label": "百度实时路况",
         "url": "http://its.map.baidu.com:8002/traffic/TrafficTileService?x={x}&y={y}&level={z}&label=web2D&v=017",
         "type": "BD_time",
+        "refreshInterval": 5,
         "visible": false
       }
     ],
